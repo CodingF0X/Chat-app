@@ -12,6 +12,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { UsersModule } from './users/users.module';
 import { LoggerModule } from 'nestjs-pino';
+import { DBMigrationService } from './common/database/db-migration.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -46,6 +47,6 @@ import { LoggerModule } from 'nestjs-pino';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DBMigrationService],
 })
 export class AppModule {}
