@@ -11,6 +11,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { UsersModule } from './users/users.module';
+import { LoggerModule } from 'nestjs-pino';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,6 +33,17 @@ import { UsersModule } from './users/users.module';
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     UsersModule,
+    LoggerModule.forRoot({
+      pinoHttp: {
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            singleLine: true,
+            autoLogging: false,
+          },
+        },
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
