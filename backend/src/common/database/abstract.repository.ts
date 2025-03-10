@@ -1,5 +1,5 @@
 import { Logger, NotFoundException } from '@nestjs/common';
-import { AbstractSchema } from './abstract.schema.';
+import { AbstractSchema } from './abstract.schema';
 import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { stringify } from 'querystring';
 
