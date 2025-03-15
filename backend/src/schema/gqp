@@ -34,7 +34,4 @@ input UpdateUserInput {
 
   """Password of user"""
   password: String!
-
-  """Id of user"""
-  _id: String!
 }
