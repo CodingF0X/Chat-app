@@ -28,7 +28,7 @@ export class AuthService {
 
     // here we generete the token only upon http request, and not store it in the browser.
     const accessToken = this.jwtService.sign(tokenPayload);
-    response.cookie('auth_cookie', accessToken, {
+    response.cookie('Authentication', accessToken, {
       httpOnly: true,
       expires: expiresIn,
     });
