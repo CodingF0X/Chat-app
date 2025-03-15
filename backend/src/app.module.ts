@@ -13,6 +13,7 @@ import { join } from 'path';
 import { UsersModule } from './users/users.module';
 import { LoggerModule } from 'nestjs-pino';
 import { DBMigrationService } from './common/database/db-migration.config';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -45,6 +46,7 @@ import { DBMigrationService } from './common/database/db-migration.config';
         },
       },
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService, DBMigrationService],
