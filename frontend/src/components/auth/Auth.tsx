@@ -52,7 +52,7 @@ const Auth = ({ submitLable, onSubmit, children }: AuthProps) => {
       >
         {submitLable}
       </Button>
-
+      
       {children}
     </Stack>
   );
