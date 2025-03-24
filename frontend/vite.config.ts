@@ -12,6 +12,10 @@ export default defineConfig({
         // Optionally, rewrite the URL path if needed:
         rewrite: (path) => path.replace(/^\/graphql/, "/graphql"),
       },
+      "/auth": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+      },
     },
   },
 });
