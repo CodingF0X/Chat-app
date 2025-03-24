@@ -5,8 +5,9 @@ interface AuthProps {
   submitLable: string;
   onSubmit: (credentials: { email: string; password: string }) => Promise<void>;
   children: React.ReactNode; // to pass children to the Auth component
+  error?: string;
 }
-const Auth = ({ submitLable, onSubmit, children }: AuthProps) => {
+const Auth = ({ submitLable, onSubmit, children, error }: AuthProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -38,12 +39,16 @@ const Auth = ({ submitLable, onSubmit, children }: AuthProps) => {
         label="email"
         variant="outlined"
         onChange={(event) => setEmail(event.target.value)}
+        error={!!error}
+        helperText={error}
       />
       <TextField
         type="password"
         label="password"
         variant="outlined"
         onChange={(event) => setPassword(event.target.value)}
+        error={!!error}
+        helperText={error}
       />
       <Button
         type="submit"
@@ -52,7 +57,7 @@ const Auth = ({ submitLable, onSubmit, children }: AuthProps) => {
       >
         {submitLable}
       </Button>
-      
+
       {children}
     </Stack>
   );

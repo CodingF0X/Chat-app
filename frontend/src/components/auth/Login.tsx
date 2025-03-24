@@ -7,7 +7,11 @@ const Login = () => {
   const { login, err } = useLogin();
   return (
     <div>
-      <Auth submitLable="Login" onSubmit={(req) => login(req)}>
+      <Auth
+        submitLable="Login"
+        onSubmit={(req) => login(req)}
+        error={err ? "Credentials are not valid" : ""}
+      >
         <Typography>
           Don't have an account?{" "}
           <Typography
