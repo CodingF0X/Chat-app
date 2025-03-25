@@ -11,6 +11,16 @@ const Auth = ({ submitLable, onSubmit, children, error }: AuthProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const emailError = () => {
+    if (!error) return undefined;
+    const lowerErr = error.toLowerCase();
+    if (lowerErr.includes("email")) return error;
+  };
+
+  const passwordError = () => {
+    if (!error) return undefined;
+    if (error.includes("password")) return error;
+  };
   return (
     <Stack
       spacing={3}
@@ -39,16 +49,16 @@ const Auth = ({ submitLable, onSubmit, children, error }: AuthProps) => {
         label="email"
         variant="outlined"
         onChange={(event) => setEmail(event.target.value)}
-        error={!!error}
-        helperText={error}
+        error={!!emailError()}
+        helperText={emailError()}
       />
       <TextField
         type="password"
         label="password"
         variant="outlined"
         onChange={(event) => setPassword(event.target.value)}
-        error={!!error}
-        helperText={error}
+        error={!!passwordError()}
+        helperText={passwordError()}
       />
       <Button
         type="submit"

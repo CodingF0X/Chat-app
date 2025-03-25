@@ -2,27 +2,38 @@ import Auth from "./Auth";
 import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import useCreateUser from "../../hooks/useCreateUser";
+import { useState } from "react";
+import { extractErrorMessage } from "../../utils/errors";
 
 const Signup = () => {
   const [createUser] = useCreateUser();
-
+  const [err, setErr] = useState("");
   const handleSubmit = async (credentials: {
     email: string;
     password: string;
   }) => {
     const { email, password } = credentials;
-    await createUser({
-      variables: {
-        createUserInput: {
-          email,
-          password,
+    try {
+      await createUser({
+        variables: {
+          createUserInput: {
+            email,
+            password,
+          },
         },
-      },
-    });
+      });
+      setErr("");
+    } catch (error) {
+      const errMessage = extractErrorMessage(error);
+      if (errMessage) {
+        setErr(errMessage);
+        return;
+      }
+    }
   };
   return (
     <div>
-      <Auth submitLable="Signup" onSubmit={handleSubmit}>
+      <Auth submitLable="Signup" onSubmit={handleSubmit} error={err}>
         <Typography>
           Already have an account?{" "}
           <Typography
