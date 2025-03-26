@@ -8,6 +8,7 @@ import { extractErrorMessage } from "../../utils/errors";
 const Signup = () => {
   const [createUser] = useCreateUser();
   const [err, setErr] = useState("");
+
   const handleSubmit = async (credentials: {
     email: string;
     password: string;

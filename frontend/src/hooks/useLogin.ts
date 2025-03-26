@@ -7,7 +7,7 @@ interface LoginRequest {
   password: string;
 }
 const useLogin = () => {
-  const [err, setErr] = useState<boolean>();
+  const [err, setErr] = useState<string>();
 
   const login = async (request: LoginRequest) => {
     try {
@@ -19,16 +19,20 @@ const useLogin = () => {
         body: JSON.stringify(request),
       });
       if (!res.ok) {
-        setErr(true);
+        if(res.status === 401){
+          setErr('Invalid credentials');
+        } else {
+          setErr('Unknown error occurred'); 
+        }
         return;
       }
-      setErr(false);
+      setErr('');
       await client.refetchQueries({ include: "active" });
 
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setErr(false);
+      setErr('Unknown error');
       console.log(error);
     }
   };

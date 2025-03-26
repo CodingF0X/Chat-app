@@ -10,7 +10,7 @@ const Login = () => {
       <Auth
         submitLable="Login"
         onSubmit={(req) => login(req)}
-        error={err ? "Credentials are not valid" : ""}
+        error={err}
       >
         <Typography>
           Don't have an account?{" "}
