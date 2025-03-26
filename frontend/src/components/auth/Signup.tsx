@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import useCreateUser from "../../hooks/useCreateUser";
 import { useState } from "react";
 import { extractErrorMessage } from "../../utils/errors";
+import useLogin from "../../hooks/useLogin";
 
 const Signup = () => {
   const [createUser] = useCreateUser();
   const [err, setErr] = useState("");
-
+  const { login } = useLogin();
   const handleSubmit = async (credentials: {
     email: string;
     password: string;
@@ -23,6 +24,8 @@ const Signup = () => {
           },
         },
       });
+      // here to login immidiately after succesful user creation
+      await login(credentials);
       setErr("");
     } catch (error) {
       const errMessage = extractErrorMessage(error);

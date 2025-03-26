@@ -1,5 +1,7 @@
 import { Button, Stack, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useGetMe } from "../../hooks/useGetMe";
+import { useNavigate } from "react-router-dom";
 
 interface AuthProps {
   submitLable: string;
@@ -10,6 +12,13 @@ interface AuthProps {
 const Auth = ({ submitLable, onSubmit, children, error }: AuthProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { data } = useGetMe();
+  const navigate = useNavigate();
+
+  // here to navigate to home page after successful login
+  useEffect(() => {
+    if (data) navigate("/");
+  }, [data, navigate]);
 
   const emailError = () => {
     if (!error) return undefined;
