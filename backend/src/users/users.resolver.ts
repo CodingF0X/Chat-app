@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.schema';
-import { UseGuards } from '@nestjs/common';
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
 import { CurrentUser } from 'src/auth/current-user.decorator';
 import { JwtPayload } from 'src/auth/jwt-payload.interface';
@@ -31,14 +31,24 @@ export class UsersResolver {
 
   @Mutation(() => User)
   @UseGuards(GqlAuthGuard)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput, 
-  @CurrentUser() user: JwtPayload
-) {
+  updateUser(
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
+    @CurrentUser() user: JwtPayload,
+  ) {
     return this.usersService.update(user._id, updateUserInput);
   }
 
   @Mutation(() => User)
-  removeUser(@Args('_id', { type: () => String })  @CurrentUser() user: JwtPayload) {
+  removeUser(
+    @Args('_id', { type: () => String }) @CurrentUser() user: JwtPayload,
+  ) {
     return this.usersService.remove(user._id);
+  }
+
+  @Query(() => User, { name: 'GET_ME' })
+  @UseGuards(GqlAuthGuard)
+  getUser(@CurrentUser() user: JwtPayload) {
+    if (!user) throw new UnauthorizedException('User not authenticated');
+    return user;
   }
 }
