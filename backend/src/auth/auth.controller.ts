@@ -16,4 +16,11 @@ export class AuthController {
   ) {
     return this.authService.login(user, response);
   }
+
+  @Post('logout')
+  logout(@Res({ passthrough: true }) response: Response) {
+    // response.clearCookie('access_token');
+    // return response.sendStatus(200);
+    return this.authService.logout(response);
+  }
 }

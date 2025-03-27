@@ -1,6 +1,7 @@
-import { JSX } from "react";
+import { JSX, useEffect } from "react";
 import { useGetMe } from "../../hooks/useGetMe";
 import { exludedRoutes } from "../../constants/excluded-routes";
+import { authenticatedVar } from "../../constants/authenticated";
 
 interface GuardProps {
   children: JSX.Element;
@@ -8,6 +9,10 @@ interface GuardProps {
 const Guard = ({ children }: GuardProps) => {
   const { data: user } = useGetMe();
   console.log(user);
+
+  useEffect(() => {
+    if (user) authenticatedVar(true);
+  }, [user]);
   /* since we wrapped the  <RouterProvider router={Routes} /> with this guard,
   then it will be considered as the children component, thus, every child component come with it.
    */
