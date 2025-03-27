@@ -2,7 +2,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { API_URL } from "./urls";
 import { onError } from "@apollo/client/link/error";
 import { exludedRoutes } from "./excluded-routes";
-import Routes from "../components/Routes";
+import onLogout from "../utils/onLogout";
 
 const logoutLink = onError((err) => {
   if (
@@ -11,8 +11,7 @@ const logoutLink = onError((err) => {
     (err.graphQLErrors[0].extensions?.originalError as any)?.statusCode === 401
   ) {
     if (!exludedRoutes.includes(window.location.pathname)) {
-      Routes.navigate("/login");
-      client.clearStore();
+      onLogout();
     }
   }
 });
@@ -35,7 +34,6 @@ Order matters:
 Requests flow from left to right (logoutLink ➔ httpLink).
 Responses flow from right to left (httpLink ➔ logoutLink).
 */
-
 
 /* 
 Flow Explaination:

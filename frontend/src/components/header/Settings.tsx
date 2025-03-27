@@ -8,12 +8,16 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import onLogout from "../../utils/onLogout";
+import useLogout from "../../hooks/useLogout";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Settings = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const { logout } = useLogout();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -48,7 +52,14 @@ const Settings = () => {
           onClose={handleCloseUserMenu}
         >
           {settings.map((setting) => (
-            <MenuItem key={setting} onClick={handleCloseUserMenu}>
+            <MenuItem
+              key={setting}
+              onClick={async () => {
+               await logout();
+                onLogout();
+                handleCloseUserMenu();
+              }}
+            >
               <Typography sx={{ textAlign: "center" }}>{setting}</Typography>
             </MenuItem>
           ))}

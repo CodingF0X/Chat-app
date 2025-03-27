@@ -6,13 +6,14 @@ import Mobile_Nav from "./mobile/Mobile_Nav";
 import Mobile_Branding from "./mobile/Mobile_Branding";
 import Desktop_Nav from "./Desktop_Nav";
 import Settings from "./Settings";
-import { useGetMe } from "../../hooks/useGetMe";
 import Routes from "../Routes";
+import { useReactiveVar } from "@apollo/client";
+import { authenticatedVar } from "../../constants/authenticated";
 
 const pages = [""];
 
 const Header = () => {
-  const { data:user } = useGetMe();
+  const authenticated = useReactiveVar(authenticatedVar);
   return (
     <AppBar position="static" sx={{color:'white', background:'orange'}}>
       <Container maxWidth="xl">
@@ -21,7 +22,7 @@ const Header = () => {
           <Mobile_Nav pages={pages} />
           <Mobile_Branding />
           <Desktop_Nav pages={pages} />
-          {user ? <Settings /> : (
+          {authenticated ? <Settings /> : (
             <Typography component='a' onClick={()=> Routes.navigate('/login')}>
               Login
 
