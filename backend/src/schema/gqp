@@ -26,20 +26,20 @@ type Chat {
 }
 
 type Query {
-  users: [User!]!
-  user(query: String!): User!
+  Get_All_Users: [User!]!
+  User(query: String!): User!
   GET_ME: User!
-  chats: [Chat!]!
-  chat(id: Int!): Chat!
+  Find_Chats: [Chat!]!
+  Find_Single_Chat(id: Int!): Chat!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(_id: String!): User!
-  createChat(createChatInput: CreateChatInput!): Chat!
-  updateChat(updateChatInput: UpdateChatInput!): Chat!
-  removeChat(id: Int!): Chat!
+  Create_New_User(createUserInput: CreateUserInput!): User!
+  Update_User_Details(updateUserInput: UpdateUserInput!): User!
+  Delete_User(_id: String!): User!
+  Create_New_Chat(createChatInput: CreateChatInput!): Chat!
+  Update_Single_Chat(updateChatInput: UpdateChatInput!): Chat!
+  Delete_Chat(id: Int!): Chat!
 }
 
 input CreateUserInput {
