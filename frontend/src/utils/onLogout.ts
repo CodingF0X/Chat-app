@@ -4,7 +4,7 @@ import { authenticatedVar } from "../constants/authenticated";
 
 const onLogout = ()=>{
     Routes.navigate("/login");
-    client.clearStore();
+    client.resetStore();
     authenticatedVar(false);
 }
 
