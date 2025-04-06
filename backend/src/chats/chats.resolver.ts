@@ -12,7 +12,7 @@ import { JwtPayload } from 'src/auth/jwt-payload.interface';
 export class ChatsResolver {
   constructor(private readonly chatsService: ChatsService) {}
 
-  @Mutation(() => Chat)
+  @Mutation(() => Chat, { name: 'Create_New_Chat' })
   @UseGuards(GqlAuthGuard)
   createChat(
     @Args('createChatInput') createChatInput: CreateChatInput,
@@ -21,22 +21,22 @@ export class ChatsResolver {
     return this.chatsService.create(createChatInput, user._id);
   }
 
-  @Query(() => [Chat], { name: 'chats' })
+  @Query(() => [Chat], { name: 'Find_Chats' })
   findAll() {
     return this.chatsService.findAll();
   }
 
-  @Query(() => Chat, { name: 'chat' })
+  @Query(() => Chat, { name: 'Find_Single_Chat' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.chatsService.findOne(id);
   }
 
-  @Mutation(() => Chat)
+  @Mutation(() => Chat, { name: 'Update_Single_Chat' })
   updateChat(@Args('updateChatInput') updateChatInput: UpdateChatInput) {
     return this.chatsService.update(updateChatInput.id, updateChatInput);
   }
 
-  @Mutation(() => Chat)
+  @Mutation(() => Chat, { name: 'Delete_Chat' })
   removeChat(@Args('id', { type: () => Int }) id: number) {
     return this.chatsService.remove(id);
   }
