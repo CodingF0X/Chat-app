@@ -3,11 +3,11 @@ import { User } from "../models/User";
 
 const GET_USERS = gql`
   query Query {
-    users {
-      _id
-      email
-    }
+  Get_All_Users {
+    _id
+    email
   }
+}
 `;
 
 const useGetUsers = () => {

@@ -12,24 +12,24 @@ import { JwtPayload } from 'src/auth/jwt-payload.interface';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Mutation(() => User)
+  @Mutation(() => User, { name: 'Create_New_User' })
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.usersService.create(createUserInput);
   }
 
-  @Query(() => [User], { name: 'users' })
+  @Query(() => [User], { name: 'Get_All_Users' })
   @UseGuards(GqlAuthGuard)
   findAll() {
     return this.usersService.findAll();
   }
 
-  @Query(() => User, { name: 'user' })
+  @Query(() => User, { name: 'User' })
   @UseGuards(GqlAuthGuard)
   findOne(@Args('query', { type: () => String }) _id: string) {
     return this.usersService.findOne(_id);
   }
 
-  @Mutation(() => User)
+  @Mutation(() => User, { name: 'Update_User_Details' })
   @UseGuards(GqlAuthGuard)
   updateUser(
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
@@ -38,7 +38,7 @@ export class UsersResolver {
     return this.usersService.update(user._id, updateUserInput);
   }
 
-  @Mutation(() => User)
+  @Mutation(() => User, { name: 'Delete_User' })
   removeUser(
     @Args('_id', { type: () => String }) @CurrentUser() user: JwtPayload,
   ) {

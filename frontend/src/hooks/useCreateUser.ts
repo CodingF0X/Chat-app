@@ -10,12 +10,12 @@ where the mutation happens. similarly copy the text for other mutations and quer
 to perform the rest of the api operations.
 */
 const CREATE_USER = gql`
-  mutation CreateUser($createUserInput: CreateUserInput!) {
-    createUser(createUserInput: $createUserInput) {
-      _id
-      email
-    }
+  mutation Create_New_User($createUserInput: CreateUserInput!) {
+  Create_New_User(createUserInput: $createUserInput) {
+    _id
+    email
   }
+}
 `;
 
 const useCreateUser = () => {
