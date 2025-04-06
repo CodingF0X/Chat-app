@@ -14,6 +14,7 @@ import { UsersModule } from './users/users.module';
 import { LoggerModule } from 'nestjs-pino';
 import { DBMigrationService } from './common/database/db-migration.config';
 import { AuthModule } from './auth/auth.module';
+import { ChatsModule } from './chats/chats.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -47,6 +48,7 @@ import { AuthModule } from './auth/auth.module';
       },
     }),
     AuthModule,
+    ChatsModule,
   ],
   controllers: [AppController],
   providers: [AppService, DBMigrationService],

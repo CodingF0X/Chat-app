@@ -9,16 +9,37 @@ type User {
   email: String!
 }
 
+type Chat {
+  _id: ID!
+
+  """Id of user created the chat"""
+  userId: String!
+
+  """Privacy option"""
+  isPrivate: String!
+
+  """Array of chat participants"""
+  participants: [String!]!
+
+  """Chat name"""
+  name: String!
+}
+
 type Query {
   users: [User!]!
   user(query: String!): User!
   GET_ME: User!
+  chats: [Chat!]!
+  chat(id: Int!): Chat!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(_id: String!): User!
+  createChat(createChatInput: CreateChatInput!): Chat!
+  updateChat(updateChatInput: UpdateChatInput!): Chat!
+  removeChat(id: Int!): Chat!
 }
 
 input CreateUserInput {
@@ -35,4 +56,27 @@ input UpdateUserInput {
 
   """Password of user"""
   password: String!
+}
+
+input CreateChatInput {
+  """Example field (placeholder)"""
+  isPrivate: Boolean!
+
+  """Array of chat participants"""
+  participants: [String!]
+
+  """Chat name"""
+  name: String
+}
+
+input UpdateChatInput {
+  """Example field (placeholder)"""
+  isPrivate: Boolean
+
+  """Array of chat participants"""
+  participants: [String!]
+
+  """Chat name"""
+  name: String
+  id: Int!
 }
