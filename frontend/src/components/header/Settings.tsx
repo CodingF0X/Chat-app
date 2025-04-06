@@ -27,6 +27,17 @@ const Settings = () => {
     setAnchorElUser(null);
   };
 
+  const handleMenuItemClick = async (setting: string) => {
+    handleCloseUserMenu(); // Close the menu in all cases
+
+    if (setting === "Logout") {
+      await logout();
+      onLogout();
+      handleCloseUserMenu();
+    }
+    // Other menu items (Profile, Account, Dashboard) have their own logic here
+  };
+
   return (
     <div>
       <Box sx={{ flexGrow: 0 }}>
@@ -54,11 +65,7 @@ const Settings = () => {
           {settings.map((setting) => (
             <MenuItem
               key={setting}
-              onClick={async () => {
-               await logout();
-                onLogout();
-                handleCloseUserMenu();
-              }}
+              onClick={() => handleMenuItemClick(setting)}
             >
               <Typography sx={{ textAlign: "center" }}>{setting}</Typography>
             </MenuItem>
