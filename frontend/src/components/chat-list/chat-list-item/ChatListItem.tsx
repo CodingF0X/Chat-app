@@ -7,7 +7,14 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const ChatListItem = () => {
+interface Chat {
+  name?: string | null; // this is optional, bcuz if chat is private, it will not have a name
+}
+interface ChatListItemProps {
+  chat: Chat;
+}
+
+const ChatListItem = ({ chat }: ChatListItemProps) => {
   return (
     <>
       <ListItem alignItems="flex-start">
@@ -15,7 +22,7 @@ const ChatListItem = () => {
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary="Brunch this weekend?"
+          primary={chat.name}
           secondary={
             <React.Fragment>
               <Typography

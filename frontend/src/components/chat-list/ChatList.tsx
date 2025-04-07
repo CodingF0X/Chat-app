@@ -5,9 +5,11 @@ import { Stack } from "@mui/material";
 import ChatListHeader from "./chat-list-header/ChatListHeader";
 import { useState } from "react";
 import ChatListAdd from "./chat-list-add/ChatListAdd";
+import useGetChats from "../../hooks/useGetChats";
 
 const ChatList = () => {
   const [openAddChatModal, setOpenAddChatModal] = useState(false);
+  const { data } = useGetChats();
   return (
     <>
       <ChatListAdd
@@ -19,6 +21,7 @@ const ChatList = () => {
         <ChatListHeader handleCreateChat={() => setOpenAddChatModal(true)} />
         <Divider />
 
+
         <List
           sx={{
             width: "100%",
@@ -27,51 +30,13 @@ const ChatList = () => {
             maxHeight: "80vh",
             overflow: "auto",
           }}
+          
         >
-          <ChatListItem />
+          {data?.Find_Chats.map((chat) => (
+          <ChatListItem key={chat._id} chat={chat} />
+        ))}
           <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
-          <ChatListItem />
-          <Divider variant="inset" component="li" />
+          
         </List>
       </Stack>
     </>
