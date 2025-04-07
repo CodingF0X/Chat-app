@@ -30,7 +30,7 @@ type Query {
   User(query: String!): User!
   GET_ME: User!
   Find_Chats: [Chat!]!
-  Find_Single_Chat(id: Int!): Chat!
+  Find_Single_Chat(_id: String!): Chat!
 }
 
 type Mutation {
@@ -39,7 +39,7 @@ type Mutation {
   Delete_User(_id: String!): User!
   Create_New_Chat(createChatInput: CreateChatInput!): Chat!
   Update_Single_Chat(updateChatInput: UpdateChatInput!): Chat!
-  Delete_Chat(id: Int!): Chat!
+  Delete_Chat(_id: String!): String!
 }
 
 input CreateUserInput {
@@ -76,7 +76,9 @@ input UpdateChatInput {
   """Array of chat participants"""
   participants: [String!]
 
-  """Chat name"""
-  name: String
-  id: Int!
+  """Chat Name"""
+  name: String!
+
+  """Id of Chat"""
+  _id: String!
 }

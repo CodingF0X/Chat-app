@@ -22,15 +22,21 @@ export class ChatsService {
     return chats;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} chat`;
+  async findOne(_id: string) {
+    const chat = await this.chatRepository.findOne({ _id });
+    return chat;
   }
 
-  update(id: number, updateChatInput: UpdateChatInput) {
-    return `This action updates a #${id} chat`;
+  async update(updateChatInput: UpdateChatInput) {
+    const chat = await this.chatRepository.findOneAndUpdate(
+      { _id: updateChatInput._id },
+      { $set: updateChatInput },
+    );
+    return chat;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} chat`;
+  async remove(_id: string) {
+    const chat = await this.chatRepository.findOneAndDelete({ _id });
+    return `Chat ${chat.name} has been deleted`; 
   }
 }

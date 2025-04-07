@@ -27,17 +27,17 @@ export class ChatsResolver {
   }
 
   @Query(() => Chat, { name: 'Find_Single_Chat' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.chatsService.findOne(id);
+  findOne(@Args('_id', { type: () => String }) _id: string) {
+    return this.chatsService.findOne(_id);
   }
 
   @Mutation(() => Chat, { name: 'Update_Single_Chat' })
   updateChat(@Args('updateChatInput') updateChatInput: UpdateChatInput) {
-    return this.chatsService.update(updateChatInput.id, updateChatInput);
+    return this.chatsService.update(updateChatInput);
   }
 
-  @Mutation(() => Chat, { name: 'Delete_Chat' })
-  removeChat(@Args('id', { type: () => Int }) id: number) {
-    return this.chatsService.remove(id);
+  @Mutation(() => String, { name: 'Delete_Chat' })
+  removeChat(@Args('_id', { type: () => String }) _id: string) {
+    return this.chatsService.remove(_id);
   }
 }
