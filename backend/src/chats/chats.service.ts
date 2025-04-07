@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { ChatRepository } from './chat.repository';
+import { Chat } from './entities/chat.entity';
 
 @Injectable()
 export class ChatsService {
@@ -16,8 +17,9 @@ export class ChatsService {
     return chat;
   }
 
-  findAll() {
-    return `This action returns all chats`;
+  async findAll(): Promise<Chat[]> {
+    const chats = await this.chatRepository.find({});
+    return chats;
   }
 
   findOne(id: number) {
