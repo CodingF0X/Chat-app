@@ -4,6 +4,7 @@ import {
   Button,
   FormControlLabel,
   FormGroup,
+  FormHelperText,
   IconButton,
   InputBase,
   Modal,
@@ -21,10 +22,18 @@ interface ChatListAddProps {
 }
 const ChatListAdd = ({ open, handleClosed }: ChatListAddProps) => {
   const [isPrivate, setIsPrivate] = useState(true);
-  const [name, setName] = useState<string|undefined>("");
+  const [error, setError] = useState("");
+  const [name, setName] = useState<string>("");
   const [createChat] = useCreateChat();
+
+  const onClose = () => {
+    setError("");
+    setName("");
+    setIsPrivate(true);
+    handleClosed();
+  }
   return (
-    <Modal open={open} onClose={handleClosed}>
+    <Modal open={open} onClose={onClose}>
       <Box
         sx={{
           position: "absolute",
@@ -72,21 +81,30 @@ const ChatListAdd = ({ open, handleClosed }: ChatListAddProps) => {
               <InputBase
                 sx={{ ml: 1, flex: 1 }}
                 placeholder="Chat Name"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  setError("");
+                }}
                 value={name}
+                error={!!error}
               />
+              <FormHelperText error={!!error}>{error}</FormHelperText>
             </Paper>
           )}
 
           <Button
             variant="outlined"
-            onClick={() => {
-              createChat({
+            onClick={async () => {
+              if (!name.length) {
+                setError("Chat name is required");
+                return;
+              }
+              await createChat({
                 variables: {
                   createChatInput: {
                     isPrivate: isPrivate,
                     participants: [],
-                    name: name||undefined,
+                    name: name || undefined,
                   },
                 },
               });
