@@ -21,10 +21,11 @@ const darkTheme = createTheme({
 });
 function App() {
   const { path } = usePath();
-  console.log(path);
+  const pathsVar = path === "/" || path.includes("chats");
+
   const Routes = () => {
     return (
-      <Container>
+      <Container sx={{height:'80vh'}}>
         <RouterProvider router={routes} />
       </Container>
     );
@@ -35,7 +36,7 @@ function App() {
         <CssBaseline />
         <Header />
         <Guard>
-          {path === "/" ? (
+          {pathsVar ? (
             <Grid2 container>
               <Grid2 size={3}>
                 <ChatList />
