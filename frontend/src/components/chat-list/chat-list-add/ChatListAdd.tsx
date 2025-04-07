@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import useCreateChat from "../../../hooks/useCreateChat";
 
 interface ChatListAddProps {
   open: boolean;
@@ -20,6 +21,8 @@ interface ChatListAddProps {
 }
 const ChatListAdd = ({ open, handleClosed }: ChatListAddProps) => {
   const [isPrivate, setIsPrivate] = useState(true);
+  const [name, setName] = useState<string|undefined>("");
+  const [createChat] = useCreateChat();
   return (
     <Modal open={open} onClose={handleClosed}>
       <Box
@@ -66,11 +69,32 @@ const ChatListAdd = ({ open, handleClosed }: ChatListAddProps) => {
             </Paper>
           ) : (
             <Paper sx={{ p: "2px 4px", display: "flex", alignItems: "center" }}>
-              <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Chat Name" />
+              <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder="Chat Name"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+              />
             </Paper>
           )}
 
-          <Button variant="outlined">Save</Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              createChat({
+                variables: {
+                  createChatInput: {
+                    isPrivate: isPrivate,
+                    participants: [],
+                    name: name||undefined,
+                  },
+                },
+              });
+              handleClosed();
+            }}
+          >
+            Save
+          </Button>
         </Stack>
       </Box>
     </Modal>
