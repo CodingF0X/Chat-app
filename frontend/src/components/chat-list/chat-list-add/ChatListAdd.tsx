@@ -108,7 +108,7 @@ const ChatListAdd = ({ open, handleClosed }: ChatListAddProps) => {
                   },
                 },
               });
-              handleClosed();
+              onClose();
             }}
           >
             Save
