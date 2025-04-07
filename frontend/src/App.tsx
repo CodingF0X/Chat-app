@@ -2,7 +2,7 @@ import {
   Container,
   createTheme,
   CssBaseline,
-  Grid2,
+  Grid,
   ThemeProvider,
 } from "@mui/material";
 import { RouterProvider } from "react-router-dom";
@@ -37,15 +37,15 @@ function App() {
         <Header />
         <Guard>
           {pathsVar ? (
-            <Grid2 container>
-              <Grid2 size={3}>
+            <Grid container>
+              <Grid size={3}>
                 <ChatList />
-              </Grid2>
+              </Grid>
 
-              <Grid2 size={9}>
+              <Grid size={9}>
                 <Routes />
-              </Grid2>
-            </Grid2>
+              </Grid>
+            </Grid>
           ) : (
             <Routes />
           )}
