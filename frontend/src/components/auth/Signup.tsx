@@ -16,7 +16,7 @@ const Signup = () => {
   }) => {
     const { email, password } = credentials;
     try {
-      await createUser({
+     await createUser({
         variables: {
           createUserInput: {
             email,
@@ -24,7 +24,6 @@ const Signup = () => {
           },
         },
       });
-      // here to login immidiately after succesful user creation
       await login(credentials);
       setErr("");
     } catch (error) {
