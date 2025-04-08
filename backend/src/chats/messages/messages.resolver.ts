@@ -1,4 +1,4 @@
-import { Args, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { MessagesService } from './messages.service';
 import { Message } from './entities/message.entity';
 import { UseGuards } from '@nestjs/common';
@@ -12,6 +12,7 @@ export class MessagesResolver {
   constructor(private readonly messagesService: MessagesService) {}
 
   @UseGuards(GqlAuthGuard)
+  @Mutation(() => Message, { name: 'Create_New_Message' })
   async createMessage(
     @Args('createMessageInput') createMessageInput: CreateMessageInput,
     @CurrentUser() user: JwtPayload,

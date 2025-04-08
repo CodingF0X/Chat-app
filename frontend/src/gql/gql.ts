@@ -21,6 +21,7 @@ type Documents = {
     "\n  query getChats {\n    Find_Chats {\n      ...ChatFragment\n    }\n  }\n": typeof types.GetChatsDocument,
     "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n    }\n  }\n": typeof types.GetMeDocument,
     "\n  query Query {\n  Get_All_Users {\n    _id\n    email\n  }\n}\n": typeof types.QueryDocument,
+    "\n  mutation createMessage($createMessageInput: CreateMessageInput!) {\n    Create_New_Message(createMessageInput: $createMessageInput) {\n      _id\n      content\n      sender\n      createdAt\n    }\n  }\n": typeof types.CreateMessageDocument,
 };
 const documents: Documents = {
     "\n  fragment ChatFragment on Chat {\n    _id\n    userId\n    isPrivate\n    participants\n    name\n  }\n": types.ChatFragmentFragmentDoc,
@@ -30,6 +31,7 @@ const documents: Documents = {
     "\n  query getChats {\n    Find_Chats {\n      ...ChatFragment\n    }\n  }\n": types.GetChatsDocument,
     "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n    }\n  }\n": types.GetMeDocument,
     "\n  query Query {\n  Get_All_Users {\n    _id\n    email\n  }\n}\n": types.QueryDocument,
+    "\n  mutation createMessage($createMessageInput: CreateMessageInput!) {\n    Create_New_Message(createMessageInput: $createMessageInput) {\n      _id\n      content\n      sender\n      createdAt\n    }\n  }\n": types.CreateMessageDocument,
 };
 
 /**
@@ -74,6 +76,10 @@ export function graphql(source: "\n  query GetMe {\n    GET_ME {\n      _id\n   
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query Query {\n  Get_All_Users {\n    _id\n    email\n  }\n}\n"): (typeof documents)["\n  query Query {\n  Get_All_Users {\n    _id\n    email\n  }\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation createMessage($createMessageInput: CreateMessageInput!) {\n    Create_New_Message(createMessageInput: $createMessageInput) {\n      _id\n      content\n      sender\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  mutation createMessage($createMessageInput: CreateMessageInput!) {\n    Create_New_Message(createMessageInput: $createMessageInput) {\n      _id\n      content\n      sender\n      createdAt\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

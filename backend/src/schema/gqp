@@ -9,6 +9,19 @@ type User {
   email: String!
 }
 
+type Message {
+  _id: ID!
+
+  """The message content"""
+  content: String!
+
+  """The sender of the message"""
+  sender: String!
+
+  """Created date of the message"""
+  createdAt: String!
+}
+
 type Chat {
   _id: ID!
 
@@ -40,6 +53,7 @@ type Mutation {
   Create_New_Chat(createChatInput: CreateChatInput!): Chat!
   Update_Single_Chat(updateChatInput: UpdateChatInput!): Chat!
   Delete_Chat(_id: String!): String!
+  Create_New_Message(createMessageInput: CreateMessageInput!): Message!
 }
 
 input CreateUserInput {
@@ -81,4 +95,12 @@ input UpdateChatInput {
 
   """Id of Chat"""
   _id: String!
+}
+
+input CreateMessageInput {
+  """The message content"""
+  content: String!
+
+  """Chat ID"""
+  chatId: String!
 }
