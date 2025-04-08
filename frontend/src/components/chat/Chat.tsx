@@ -11,17 +11,21 @@ import {
 import { Send } from "@mui/icons-material";
 import useSendMessage from "../../hooks/useSendMessage";
 import { useState } from "react";
+import Message from "./message/Message";
+import useGetMessages from "../../hooks/useGetMessages";
 
 const Chat = () => {
   const params = useParams<{ _id: string }>();
-  const { data } = useGetChat({ id: params._id! }); // ! to asserts non-null
+  const chatId = params._id!;
+  const { data } = useGetChat({ id: chatId }); // ! to asserts non-null
   const [message, setMessage] = useState<string>("");
   const [createMessage] = useSendMessage();
+  const { data: messages } = useGetMessages({ chatId });
 
   const handleSendMessage = async () => {
     await createMessage({
       variables: {
-        createMessageInput: { content: message, chatId: params._id! },
+        createMessageInput: { content: message, chatId: chatId },
       },
     });
 
@@ -32,6 +36,12 @@ const Chat = () => {
       <Typography component="h1" variant="h3">
         {data?.Find_Single_Chat.name}
       </Typography>
+
+      {messages?.Get_All_Messages.map((msg) => (
+        <Message key={msg._id} content={msg.content} />
+      ))}
+
+
       <Paper
         sx={{
           padding: "2px 4px",

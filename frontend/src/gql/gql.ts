@@ -15,21 +15,25 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 type Documents = {
     "\n  fragment ChatFragment on Chat {\n    _id\n    userId\n    isPrivate\n    participants\n    name\n  }\n": typeof types.ChatFragmentFragmentDoc,
+    "\n  fragment MessageFragment on Message {\n    _id\n    content\n    sender\n    createdAt\n  }\n": typeof types.MessageFragmentFragmentDoc,
     "\n  mutation Create_New_Chat($createChatInput: CreateChatInput!) {\n    Create_New_Chat(createChatInput: $createChatInput) {\n          ...ChatFragment\n    }\n  }\n": typeof types.Create_New_ChatDocument,
     "\n  mutation Mutation($createUserInput: CreateUserInput!) {\n    Create_New_User(createUserInput: $createUserInput) {\n      _id\n      email\n    }\n  }\n": typeof types.MutationDocument,
     "\n  query getChat($id: String!) {\n    Find_Single_Chat(_id: $id) {\n    ...ChatFragment\n    }\n  }\n": typeof types.GetChatDocument,
     "\n  query getChats {\n    Find_Chats {\n      ...ChatFragment\n    }\n  }\n": typeof types.GetChatsDocument,
     "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n    }\n  }\n": typeof types.GetMeDocument,
+    "\n  query getMessages($chatId: String!) {\n    Get_All_Messages(chatId: $chatId) {\n      ...MessageFragment\n    }\n  }\n": typeof types.GetMessagesDocument,
     "\n  query Query {\n  Get_All_Users {\n    _id\n    email\n  }\n}\n": typeof types.QueryDocument,
     "\n  mutation createMessage($createMessageInput: CreateMessageInput!) {\n    Create_New_Message(createMessageInput: $createMessageInput) {\n      _id\n      content\n      sender\n      createdAt\n    }\n  }\n": typeof types.CreateMessageDocument,
 };
 const documents: Documents = {
     "\n  fragment ChatFragment on Chat {\n    _id\n    userId\n    isPrivate\n    participants\n    name\n  }\n": types.ChatFragmentFragmentDoc,
+    "\n  fragment MessageFragment on Message {\n    _id\n    content\n    sender\n    createdAt\n  }\n": types.MessageFragmentFragmentDoc,
     "\n  mutation Create_New_Chat($createChatInput: CreateChatInput!) {\n    Create_New_Chat(createChatInput: $createChatInput) {\n          ...ChatFragment\n    }\n  }\n": types.Create_New_ChatDocument,
     "\n  mutation Mutation($createUserInput: CreateUserInput!) {\n    Create_New_User(createUserInput: $createUserInput) {\n      _id\n      email\n    }\n  }\n": types.MutationDocument,
     "\n  query getChat($id: String!) {\n    Find_Single_Chat(_id: $id) {\n    ...ChatFragment\n    }\n  }\n": types.GetChatDocument,
     "\n  query getChats {\n    Find_Chats {\n      ...ChatFragment\n    }\n  }\n": types.GetChatsDocument,
     "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n    }\n  }\n": types.GetMeDocument,
+    "\n  query getMessages($chatId: String!) {\n    Get_All_Messages(chatId: $chatId) {\n      ...MessageFragment\n    }\n  }\n": types.GetMessagesDocument,
     "\n  query Query {\n  Get_All_Users {\n    _id\n    email\n  }\n}\n": types.QueryDocument,
     "\n  mutation createMessage($createMessageInput: CreateMessageInput!) {\n    Create_New_Message(createMessageInput: $createMessageInput) {\n      _id\n      content\n      sender\n      createdAt\n    }\n  }\n": types.CreateMessageDocument,
 };
@@ -55,6 +59,10 @@ export function graphql(source: "\n  fragment ChatFragment on Chat {\n    _id\n 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  fragment MessageFragment on Message {\n    _id\n    content\n    sender\n    createdAt\n  }\n"): (typeof documents)["\n  fragment MessageFragment on Message {\n    _id\n    content\n    sender\n    createdAt\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  mutation Create_New_Chat($createChatInput: CreateChatInput!) {\n    Create_New_Chat(createChatInput: $createChatInput) {\n          ...ChatFragment\n    }\n  }\n"): (typeof documents)["\n  mutation Create_New_Chat($createChatInput: CreateChatInput!) {\n    Create_New_Chat(createChatInput: $createChatInput) {\n          ...ChatFragment\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -72,6 +80,10 @@ export function graphql(source: "\n  query getChats {\n    Find_Chats {\n      .
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n    }\n  }\n"): (typeof documents)["\n  query GetMe {\n    GET_ME {\n      _id\n      email\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query getMessages($chatId: String!) {\n    Get_All_Messages(chatId: $chatId) {\n      ...MessageFragment\n    }\n  }\n"): (typeof documents)["\n  query getMessages($chatId: String!) {\n    Get_All_Messages(chatId: $chatId) {\n      ...MessageFragment\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
