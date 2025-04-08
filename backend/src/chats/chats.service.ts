@@ -13,6 +13,7 @@ export class ChatsService {
       ...createChatInput,
       userId,
       participants: createChatInput.participants || [],
+      messages: [],
     });
     return chat;
   }
