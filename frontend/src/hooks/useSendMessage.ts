@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { graphql } from "../gql";
-import { MessageFragment } from "../fragments/message.fragment";
+import { getMessagesDocuments } from "./useGetMessages";
 
 const createMessageDocument = graphql(`
   mutation createMessage($createMessageInput: CreateMessageInput!) {
@@ -13,23 +13,31 @@ const createMessageDocument = graphql(`
   }
 `);
 
-const useSendMessage = () => {
-    return useMutation(createMessageDocument,{
-        update: (cache, { data }) => {
-            if (!data) return;
-            cache.modify({
-                fields: {
-                    Get_All_Messages(existingMessages = []) {
-                        const newMessageRef = cache.writeFragment({
-                            data: data.Create_New_Message,
-                            fragment: MessageFragment,
-                        });
-                        return [...existingMessages, newMessageRef];
-                    },
-                },
-            });
+const useSendMessage = (chatId: string) => {
+  return useMutation(createMessageDocument, {
+    update(cache, { data }) {
+      const MessagesQueryOptions = {
+        query: getMessagesDocuments,
+        variables: { chatId },
+      };
+
+      const messages = cache.readQuery({ ...MessagesQueryOptions });
+      //takes all the key/value pairs from the MessagesQueryOptions object and includes them in a new object.
+      ///This is useful for ensuring consistency and avoiding repetition
+      
+      if (!messages || !data?.Create_New_Message) return;
+
+      cache.writeQuery({
+        ...MessagesQueryOptions,
+        data: {
+          Get_All_Messages: [
+            ...messages.Get_All_Messages,
+            data.Create_New_Message,
+          ],
         },
-    })
-}
+      });
+    },
+  });
+};
 
 export default useSendMessage;

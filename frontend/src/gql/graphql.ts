@@ -21,6 +21,8 @@ export type Chat = {
   _id: Scalars['ID']['output'];
   /** Privacy option */
   isPrivate: Scalars['String']['output'];
+  /** Chat messages */
+  messages: Array<Message>;
   /** Chat name */
   name: Scalars['String']['output'];
   /** Array of chat participants */

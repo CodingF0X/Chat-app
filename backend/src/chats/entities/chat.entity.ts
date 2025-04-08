@@ -22,6 +22,7 @@ export class Chat extends AbstractEntity {
   @Prop({ nullable: true })
   name: string;
 
+  @Field(() => [Message], { description: 'Chat messages' })
   @Prop([Message])
   messages: Message[];
 }

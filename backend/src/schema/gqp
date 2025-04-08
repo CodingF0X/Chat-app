@@ -36,6 +36,9 @@ type Chat {
 
   """Chat name"""
   name: String!
+
+  """Chat messages"""
+  messages: [Message!]!
 }
 
 type Query {

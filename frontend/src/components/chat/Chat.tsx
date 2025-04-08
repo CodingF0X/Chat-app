@@ -19,7 +19,7 @@ const Chat = () => {
   const chatId = params._id!;
   const { data } = useGetChat({ id: chatId }); // ! to asserts non-null
   const [message, setMessage] = useState<string>("");
-  const [createMessage] = useSendMessage();
+  const [createMessage] = useSendMessage(chatId);
   const { data: messages } = useGetMessages({ chatId });
 
   const handleSendMessage = async () => {
@@ -40,7 +40,6 @@ const Chat = () => {
       {messages?.Get_All_Messages.map((msg) => (
         <Message key={msg._id} content={msg.content} />
       ))}
-
 
       <Paper
         sx={{
