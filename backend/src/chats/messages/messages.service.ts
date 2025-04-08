@@ -8,6 +8,18 @@ import { Types } from 'mongoose';
 export class MessagesService {
   constructor(private readonly chatRepository: ChatRepository) {}
 
+  private userChatFileter(userId: string) {
+    return {
+      $or: [
+        { userId }, // to check if the user is the owner of the chat
+        {
+          participants: { // to check if the user is a participant of the chat
+            $in: [userId],
+          },
+        },
+      ],
+    };
+  }
 
   async create(userId: string, { chatId, content }: CreateMessageInput) {
     const message: Message = {
@@ -20,18 +32,19 @@ export class MessagesService {
       await this.chatRepository.findOneAndUpdate(
       {
         _id: chatId,
-        $or: [
-          { userId }, // to check if the user is the owner of the chat
-          {
-             // to check if the user is a participant of the chat
-            participants: { 
-              $in: [userId],
-            },
-          },
-        ],
+        ...this.userChatFileter(userId),
       },
       { $push: { messages: message } }, // if all good then add the message to the array of msgs
     );
     return message;
+  }
+
+  async findAll(chatId: string, userId: string) {
+    const chat = await this.chatRepository.findOne({
+      _id: chatId,
+      ...this.userChatFileter(userId),
+    });
+
+    return chat?.messages || []; // return messages or empty array if no messages found
   }
 }

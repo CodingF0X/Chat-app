@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MessagesService } from './messages.service';
 import { Message } from './entities/message.entity';
 import { UseGuards } from '@nestjs/common';
@@ -18,5 +18,14 @@ export class MessagesResolver {
     @CurrentUser() user: JwtPayload,
   ): Promise<Message> {
     return this.messagesService.create(user._id, createMessageInput);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Query(() => [Message], { name: 'Get_All_Messages' })
+  async findAll(
+    @Args('chatId') chatId: string,
+    @CurrentUser() user: JwtPayload,
+  ): Promise<Message[]> {
+    return this.messagesService.findAll(chatId, user._id);
   }
 }
