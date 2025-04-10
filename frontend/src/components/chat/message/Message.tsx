@@ -10,10 +10,10 @@ const Message = ({ content, timeStamp }: MessageProps) => {
   return (
     <>
       <Grid container mb={"1rem"}>
-        <Grid size={0.7}>
+        <Grid size={{xs: 2, sm: 2, md: 1, lg: 1, xl: 1}}>
           <Avatar />
         </Grid>
-        <Grid size={11}>
+        <Grid size={{xs: 10, lg: 11, xl: 11}}>
           <Stack>
             <Paper
               elevation={8}

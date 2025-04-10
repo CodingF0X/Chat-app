@@ -24,11 +24,7 @@ function App() {
   const pathsVar = path === "/" || path.includes("chats");
 
   const Routes = () => {
-    return (
-      <Container sx={{height:'80vh'}}>
-        <RouterProvider router={routes} />
-      </Container>
-    );
+    return <RouterProvider router={routes} />;
   };
   return (
     <ApolloProvider client={client}>
@@ -36,19 +32,21 @@ function App() {
         <CssBaseline />
         <Header />
         <Guard>
-          {pathsVar ? (
-            <Grid container>
-              <Grid size={3}>
-                <ChatList />
-              </Grid>
+          <Container sx={{ height: "80vh", maxWidth: "xl" }}>
+            {pathsVar ? (
+              <Grid container spacing={5}>
+                <Grid size={{ xs: 12, sm: 12, md: 5, lg: 4, xl: 3 }}>
+                  <ChatList />
+                </Grid>
 
-              <Grid size={9}>
-                <Routes />
+                <Grid size={{ xs: 12, sm: 12, md: 7, lg: 8, xl: 9 }}>
+                  <Routes />
+                </Grid>
               </Grid>
-            </Grid>
-          ) : (
-            <Routes />
-          )}
+            ) : (
+              <Routes />
+            )}
+          </Container>
         </Guard>
       </ThemeProvider>
     </ApolloProvider>
