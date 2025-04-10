@@ -3,13 +3,22 @@ import Divider from "@mui/material/Divider";
 import ChatListItem from "./chat-list-item/ChatListItem";
 import { Stack } from "@mui/material";
 import ChatListHeader from "./chat-list-header/ChatListHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChatListAdd from "./chat-list-add/ChatListAdd";
 import useGetChats from "../../hooks/useGetChats";
+import usePath from "../../hooks/usePaths";
 
 const ChatList = () => {
   const [openAddChatModal, setOpenAddChatModal] = useState(false);
+  const [selected, setSelected] = useState("");
   const { data } = useGetChats();
+  const { path } = usePath();
+
+  useEffect(() => {
+    const selectedPath = path.split("chats/");
+    setSelected(selectedPath[1]);
+  }, [path]);
+
   return (
     <>
       <ChatListAdd
@@ -21,7 +30,6 @@ const ChatList = () => {
         <ChatListHeader handleCreateChat={() => setOpenAddChatModal(true)} />
         <Divider />
 
-
         <List
           sx={{
             width: "100%",
@@ -30,13 +38,11 @@ const ChatList = () => {
             maxHeight: "80vh",
             overflow: "auto",
           }}
-          
         >
           {data?.Find_Chats.map((chat) => (
-          <ChatListItem key={chat._id} chat={chat} />
-        ))}
+            <ChatListItem key={chat._id} chat={chat} selected = {selected === chat._id}/>
+          )).reverse()}
           <Divider variant="inset" component="li" />
-          
         </List>
       </Stack>
     </>

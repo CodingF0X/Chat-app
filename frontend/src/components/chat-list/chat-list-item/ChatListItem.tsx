@@ -10,16 +10,21 @@ import React from "react";
 import Routes from "../../Routes";
 import { Chat } from "../../../gql/graphql";
 
-
 interface ChatListItemProps {
   chat: Chat;
+  selected: boolean;
 }
 
-const ChatListItem = ({ chat }: ChatListItemProps) => {
+const ChatListItem = ({ chat, selected }: ChatListItemProps) => {
   return (
     <>
       <ListItem alignItems="flex-start">
-        <ListItemButton onClick={() => Routes.navigate(`/chats/${chat._id}`)} >
+        <ListItemButton
+          onClick={() => {
+            Routes.navigate(`/chats/${chat._id}`);
+          }}
+          selected={selected}
+        >
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
           </ListItemAvatar>

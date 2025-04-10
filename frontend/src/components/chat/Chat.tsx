@@ -1,6 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import useGetChat from "../../hooks/useGetChat";
 import {
+  Box,
   Divider,
   IconButton,
   InputBase,
@@ -10,7 +11,7 @@ import {
 } from "@mui/material";
 import { Send } from "@mui/icons-material";
 import useSendMessage from "../../hooks/useSendMessage";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Message from "./message/Message";
 import useGetMessages from "../../hooks/useGetMessages";
 
@@ -21,6 +22,17 @@ const Chat = () => {
   const [message, setMessage] = useState<string>("");
   const [createMessage] = useSendMessage(chatId);
   const { data: messages } = useGetMessages({ chatId });
+  const divRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+
+  //this is to scroll to latest message sent
+  const scrollToBottom = () => {
+    divRef.current?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [location,messages]);
 
   const handleSendMessage = async () => {
     await createMessage({
@@ -30,6 +42,7 @@ const Chat = () => {
     });
 
     setMessage("");
+    scrollToBottom();
   };
   return (
     <Stack sx={{ height: "100%", justifyContent: "space-between" }}>
@@ -37,10 +50,17 @@ const Chat = () => {
         {data?.Find_Single_Chat.name}
       </Typography>
 
-      {messages?.Get_All_Messages.map((msg) => (
-        <Message key={msg._id} content={msg.content} />
-      ))}
+      <Box overflow={"auto"} sx={{ maxHeight: "80vh" }}>
+        {messages?.Get_All_Messages.map((msg) => (
+          <Message
+            key={msg._id}
+            content={msg.content}
+            timeStamp={msg.createdAt}
+          />
+        ))}
 
+        <div ref={divRef}></div>
+      </Box>
       <Paper
         sx={{
           padding: "2px 4px",
@@ -56,6 +76,11 @@ const Chat = () => {
           placeholder="Message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSendMessage();
+            }
+          }}
         />
 
         <Divider sx={{ height: 30, m: 0.5 }} orientation="vertical" />

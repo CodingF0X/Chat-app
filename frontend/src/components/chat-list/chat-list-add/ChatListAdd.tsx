@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import useCreateChat from "../../../hooks/useCreateChat";
+import Routes from "../../Routes";
 
 interface ChatListAddProps {
   open: boolean;
@@ -99,7 +100,7 @@ const ChatListAdd = ({ open, handleClosed }: ChatListAddProps) => {
                 setError("Chat name is required");
                 return;
               }
-              await createChat({
+              const chat = await createChat({
                 variables: {
                   createChatInput: {
                     isPrivate: isPrivate,
@@ -109,6 +110,7 @@ const ChatListAdd = ({ open, handleClosed }: ChatListAddProps) => {
                 },
               });
               onClose();
+              Routes.navigate(`/chats/${chat.data?.Create_New_Chat._id}`);
             }}
           >
             Save
