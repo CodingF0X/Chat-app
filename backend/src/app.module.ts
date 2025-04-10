@@ -15,6 +15,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { DBMigrationService } from './common/database/db-migration.config';
 import { AuthModule } from './auth/auth.module';
 import { ChatsModule } from './chats/chats.module';
+import { PubSubModule } from './common/pubsub/pubsub.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -34,6 +35,9 @@ import { ChatsModule } from './chats/chats.module';
       autoSchemaFile: join(process.cwd(), `src/schema/gqp`),
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      subscriptions: {
+        'graphql-ws': true,
+      },
     }),
     UsersModule,
     LoggerModule.forRoot({
@@ -49,6 +53,7 @@ import { ChatsModule } from './chats/chats.module';
     }),
     AuthModule,
     ChatsModule,
+    PubSubModule,
   ],
   controllers: [AppController],
   providers: [AppService, DBMigrationService],
