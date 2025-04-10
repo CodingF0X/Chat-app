@@ -13,6 +13,10 @@ export class Message extends AbstractEntity {
   @Prop({ required: true })
   sender: string;
 
+  @Field(() => String, { description: 'The chat ID' })
+  @Prop({ required: true })
+  chatId: string;
+
   @Field(() => String, { description: 'Created date of the message' })
   @Prop({ required: true })
   createdAt: Date;
