@@ -18,6 +18,9 @@ type Message {
   """The sender of the message"""
   sender: String!
 
+  """The chat ID"""
+  chatId: String!
+
   """Created date of the message"""
   createdAt: String!
 }
@@ -107,4 +110,11 @@ input CreateMessageInput {
 
   """Chat ID"""
   chatId: String!
+}
+
+type Subscription {
+  Message_Created(
+    """The Id of the chat"""
+    chatId: String!
+  ): Message!
 }

@@ -14,6 +14,7 @@ import useSendMessage from "../../hooks/useSendMessage";
 import { useEffect, useRef, useState } from "react";
 import Message from "./message/Message";
 import useGetMessages from "../../hooks/useGetMessages";
+import useMessageCreated from "../../hooks/useMessageCreated";
 
 const Chat = () => {
   const params = useParams<{ _id: string }>();
@@ -22,9 +23,11 @@ const Chat = () => {
   const [message, setMessage] = useState<string>("");
   const [createMessage] = useSendMessage(chatId);
   const { data: messages } = useGetMessages({ chatId });
+  const { data: latestMessage } = useMessageCreated({ chatId });
   const divRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
+  console.log(latestMessage?.Message_Created)
   //this is to scroll to latest message sent
   const scrollToBottom = () => {
     divRef.current?.scrollIntoView({ behavior: "smooth" });

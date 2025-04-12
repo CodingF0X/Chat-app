@@ -5,10 +5,7 @@ import { getMessagesDocuments } from "./useGetMessages";
 const createMessageDocument = graphql(`
   mutation createMessage($createMessageInput: CreateMessageInput!) {
     Create_New_Message(createMessageInput: $createMessageInput) {
-      _id
-      content
-      sender
-      createdAt
+      ...MessageFragment
     }
   }
 `);
@@ -24,7 +21,7 @@ const useSendMessage = (chatId: string) => {
       const messages = cache.readQuery({ ...MessagesQueryOptions });
       //takes all the key/value pairs from the MessagesQueryOptions object and includes them in a new object.
       ///This is useful for ensuring consistency and avoiding repetition
-      
+
       if (!messages || !data?.Create_New_Message) return;
 
       cache.writeQuery({
