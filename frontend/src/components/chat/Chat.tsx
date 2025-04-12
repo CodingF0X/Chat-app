@@ -71,14 +71,14 @@ const Chat = () => {
       <Typography component="h1" variant="h3">
         {data?.Find_Single_Chat.name}
       </Typography>
-      // In your Chat component's JSX:
       <Box overflow={"auto"} sx={{ maxHeight: "80vh" }}>
         {messages
           ?.slice() // Create a copy to avoid mutating the original array
           .sort((messageA, messageB) => {
             // Convert createdAt strings to Date objects and compare
             return (
-              new Date(messageA.createdAt).getTime() - new Date(messageB.createdAt).getTime()
+              new Date(messageA.createdAt).getTime() -
+              new Date(messageB.createdAt).getTime()
             );
           })
           .map((msg) => (
