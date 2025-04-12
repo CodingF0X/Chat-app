@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module, UnauthorizedException } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -16,6 +16,7 @@ import { DBMigrationService } from './common/database/db-migration.config';
 import { AuthModule } from './auth/auth.module';
 import { ChatsModule } from './chats/chats.module';
 import { PubSubModule } from './common/pubsub/pubsub.module';
+import { AuthService } from './auth/auth.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -30,14 +31,30 @@ import { PubSubModule } from './common/pubsub/pubsub.module';
       inject: [ConfigService],
       useFactory: mongooseConfig,
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), `src/schema/gqp`),
-      playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      subscriptions: {
-        'graphql-ws': true,
-      },
+      useFactory: (authService: AuthService) => ({
+        autoSchemaFile: join(process.cwd(), `src/schema/gqp`),
+        playground: false,
+        plugins: [ApolloServerPluginLandingPageLocalDefault()],
+        subscriptions: {
+          'graphql-ws': {
+            onConnect: (context: any) => {
+              try {
+                const request = context.extra.request;
+                const user = authService.verifyWebSocket(request);
+                context.user = user;
+                console.log(context)
+              } catch (error) {
+                new Logger().error(error);
+                throw new UnauthorizedException();
+              }
+            },
+          },
+        },
+      }),
+      imports: [AuthModule],
+      inject: [AuthService],
     }),
     UsersModule,
     LoggerModule.forRoot({
