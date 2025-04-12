@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { User } from 'src/users/entities/user.schema';
 import { JwtPayload } from './jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
@@ -32,6 +32,20 @@ export class AuthService {
       httpOnly: true,
       expires: expiresIn,
     });
+  }
+
+  verifyWebSocket(request: Request): JwtPayload {
+    const cookies: string[] = request.headers.cookie?.split('; ') || [];
+    // console.log(request.headers)
+    // cookies= [ 'Authentication=eyJhbGciOiJI....... ]
+    const authCookie = cookies.find((cookie) => {
+     return cookie.includes('Authentication');
+    });
+    const jwt = authCookie?.split('Authentication=')[1];
+    if (!jwt) {
+      throw new Error('JWT token is missing');
+    }
+    return this.jwtService.verify(jwt);
   }
 
   logout(response: Response) {
