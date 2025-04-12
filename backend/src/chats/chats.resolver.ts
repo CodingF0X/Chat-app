@@ -21,9 +21,10 @@ export class ChatsResolver {
     return this.chatsService.create(createChatInput, user._id);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => [Chat], { name: 'Find_Chats' })
-  findAll() {
-    return this.chatsService.findAll();
+  findAll(@CurrentUser() user: JwtPayload) {
+    return this.chatsService.findAll(user);
   }
 
   @Query(() => Chat, { name: 'Find_Single_Chat' })
