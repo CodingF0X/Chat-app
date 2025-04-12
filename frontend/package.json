@@ -21,6 +21,7 @@
     "@parcel/watcher": "^2.5.1",
     "frontend": "file:",
     "graphql": "^16.10.0",
+    "graphql-ws": "^6.0.4",
     "localforage": "^1.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
