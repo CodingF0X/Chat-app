@@ -37,9 +37,9 @@ export class MessagesResolver {
   }
 
   @Subscription(() => Message, {
-    name: 'Message_Created',
-    filter(payload, variables, context) {
-      return payload.messageCreated.chatId === variables.chatId;
+    name: 'Message_Created', // ensure this name is consitent everywhere this subscription used
+    filter(payload, variables) {
+      return payload.Message_Created.chatId === variables.chatId;
     },
   })
   messageCreated(@Args() _messageCreated: MessageCreatedArgs) {
