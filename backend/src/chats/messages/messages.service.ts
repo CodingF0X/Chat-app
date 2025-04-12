@@ -46,7 +46,7 @@ export class MessagesService {
     );
 
     await this.pubSub.publish(EventTriggers.MESSAGE_CREATED, {
-      messageCreated: message,
+      Message_Created: message,
     });
     return message;
   }
