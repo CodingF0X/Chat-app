@@ -6,27 +6,16 @@ import { Types } from 'mongoose';
 import { InjectionTokens } from 'src/common/constants/injection.token';
 import { PubSub } from 'graphql-subscriptions';
 import { EventTriggers } from 'src/common/constants/event.triggers';
+import { MessageCreatedArgs } from '../args/message.args';
+import { ChatsService } from '../chats.service';
 
 @Injectable()
 export class MessagesService {
   constructor(
     private readonly chatRepository: ChatRepository,
+    private readonly chatService: ChatsService,
     @Inject(InjectionTokens.PUB_SUB) private readonly pubSub: PubSub,
   ) {}
-
-  private userChatFileter(userId: string) {
-    return {
-      $or: [
-        { userId }, // to check if the user is the owner of the chat
-        {
-          participants: {
-            // to check if the user is a participant of the chat
-            $in: [userId],
-          },
-        },
-      ],
-    };
-  }
 
   async create(userId: string, { chatId, content }: CreateMessageInput) {
     const message: Message = {
@@ -40,7 +29,7 @@ export class MessagesService {
     await this.chatRepository.findOneAndUpdate(
       {
         _id: chatId,
-        ...this.userChatFileter(userId),
+        ...this.chatService.userChatFileter(userId),
       },
       { $push: { messages: message } }, // if all good then add the message to the array of msgs
     );
@@ -54,9 +43,18 @@ export class MessagesService {
   async findAll(chatId: string, userId: string) {
     const chat = await this.chatRepository.findOne({
       _id: chatId,
-      ...this.userChatFileter(userId),
+      ...this.chatService.userChatFileter(userId),
     });
 
     return chat?.messages || []; // return messages or empty array if no messages found
+  }
+
+  async messageCreated({ chatId }: MessageCreatedArgs, userId: string) {
+    //ensures only users in this chat will get this update
+    await this.chatRepository.findOne({
+      _id: chatId,
+      ...this.chatService.userChatFileter(userId),
+    });
+    return this.pubSub.asyncIterableIterator(EventTriggers.MESSAGE_CREATED);
   }
 }

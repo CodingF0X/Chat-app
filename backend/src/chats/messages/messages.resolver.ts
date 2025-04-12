@@ -9,7 +9,6 @@ import { JwtPayload } from 'src/auth/jwt-payload.interface';
 import { InjectionTokens } from 'src/common/constants/injection.token';
 import { PubSub } from 'graphql-subscriptions';
 import { MessageCreatedArgs } from '../args/message.args';
-import { EventTriggers } from 'src/common/constants/event.triggers';
 
 @Resolver(() => Message)
 export class MessagesResolver {
@@ -38,11 +37,14 @@ export class MessagesResolver {
 
   @Subscription(() => Message, {
     name: 'Message_Created', // ensure this name is consitent everywhere this subscription used
-    filter(payload, variables) {
-      return payload.Message_Created.chatId === variables.chatId;
+    filter(payload, variables,context) {
+      const userId= context.req.user._id
+      return (payload.Message_Created.chatId === variables.chatId && 
+        userId !== payload.Message_Created.sender // here to ensure not to publish the event to the sender himself
+      );
     },
   })
-  messageCreated(@Args() _messageCreated: MessageCreatedArgs) {
-    return this.pubSub.asyncIterableIterator(EventTriggers.MESSAGE_CREATED);
+  messageCreated(@Args() messageCreated: MessageCreatedArgs, @CurrentUser() user: JwtPayload) {
+    return this.messagesService.messageCreated(messageCreated,user._id);
   }
 }
