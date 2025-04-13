@@ -20,7 +20,8 @@ const useCreateChat = () => {
                   Find_Chats(existingChats = []) {
                         const newChatRef = cache.writeFragment({
                             data: data?.Create_New_Chat,
-                            fragment: ChatFragment
+                            fragment: ChatFragment,
+                            fragmentName: "ChatFragment"
                         });
                         return [...existingChats, newChatRef];
                     }

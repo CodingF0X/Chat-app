@@ -16,7 +16,7 @@ type Message {
   content: String!
 
   """The sender of the message"""
-  sender: String!
+  user: User!
 
   """The chat ID"""
   chatId: String!
@@ -28,20 +28,11 @@ type Message {
 type Chat {
   _id: ID!
 
-  """Id of user created the chat"""
-  userId: String!
-
-  """Privacy option"""
-  isPrivate: String!
-
-  """Array of chat participants"""
-  participants: [String!]!
-
   """Chat name"""
   name: String!
 
-  """Chat messages"""
-  messages: [Message!]!
+  """Latest chat message"""
+  latestMessage: Message
 }
 
 type Query {
@@ -80,23 +71,11 @@ input UpdateUserInput {
 }
 
 input CreateChatInput {
-  """Example field (placeholder)"""
-  isPrivate: Boolean!
-
-  """Array of chat participants"""
-  participants: [String!]
-
   """Chat name"""
-  name: String
+  name: String!
 }
 
 input UpdateChatInput {
-  """Example field (placeholder)"""
-  isPrivate: Boolean
-
-  """Array of chat participants"""
-  participants: [String!]
-
   """Chat Name"""
   name: String!
 

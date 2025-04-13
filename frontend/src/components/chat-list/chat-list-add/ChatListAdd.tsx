@@ -32,7 +32,7 @@ const ChatListAdd = ({ open, handleClosed }: ChatListAddProps) => {
     setName("");
     setIsPrivate(true);
     handleClosed();
-  }
+  };
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -103,9 +103,7 @@ const ChatListAdd = ({ open, handleClosed }: ChatListAddProps) => {
               const chat = await createChat({
                 variables: {
                   createChatInput: {
-                    isPrivate: isPrivate,
-                    participants: [],
-                    name: name || undefined,
+                    name,
                   },
                 },
               });
