@@ -17,14 +17,14 @@ export class ChatsResolver {
   createChat(
     @Args('createChatInput') createChatInput: CreateChatInput,
     @CurrentUser() user: JwtPayload,
-  ) : Promise<Chat> {
+  ): Promise<Chat> {
     return this.chatsService.create(createChatInput, user._id);
   }
 
   @UseGuards(GqlAuthGuard)
   @Query(() => [Chat], { name: 'Find_Chats' })
   findAll(@CurrentUser() user: JwtPayload): Promise<Chat[]> {
-    return this.chatsService.findAll(user);
+    return this.chatsService.findMany();
   }
 
   @Query(() => Chat, { name: 'Find_Single_Chat' })

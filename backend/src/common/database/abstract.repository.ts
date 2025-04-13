@@ -8,6 +8,10 @@ export abstract class AbstractRepository<T extends AbstractEntity> {
 
   constructor(protected readonly model: Model<T>) {}
 
+  public get modelRef(): Readonly<Model<T>> {
+    return this.model;
+  }
+  
   async create(document: Omit<T, '_id'>): Promise<T> {
     this.logger.log(`Creating a new ${this.model.modelName}`);
     const createdEntity = new this.model(document);
