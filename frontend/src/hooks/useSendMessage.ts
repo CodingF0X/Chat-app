@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { graphql } from "../gql";
 import { getMessagesDocuments } from "./useGetMessages";
+import { updateLatestMessage } from "../cache/latest-message.cache";
 
 const createMessageDocument = graphql(`
   mutation createMessage($createMessageInput: CreateMessageInput!) {
@@ -33,6 +34,10 @@ const useSendMessage = (chatId: string) => {
           ],
         },
       });
+
+      if (data?.Create_New_Message) {
+        updateLatestMessage(cache, data.Create_New_Message);
+      }
     },
   });
 };
