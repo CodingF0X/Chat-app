@@ -37,19 +37,19 @@ export class MessagesResolver {
 
   @Subscription(() => Message, {
     name: 'Message_Created', // ensure this name is consitent everywhere this subscription used
-    filter(payload, variables, context) {
+    filter(payload, variables: MessageCreatedArgs , context) {
       const userId = context.req.user._id;
       const message: Message = payload.Message_Created;
       return (
-        message.chatId === variables.chatId &&
+        variables.chatIds.includes(message.chatId) &&
         userId !== message.user._id.toHexString() // here to ensure not to publish the event to the sender himself
       );
     },
   })
   messageCreated(
-    @Args() messageCreated: MessageCreatedArgs,
-    @CurrentUser() user: JwtPayload,
+    @Args() _messageCreated: MessageCreatedArgs,
+    @CurrentUser() _user: JwtPayload,
   ) {
-    return this.messagesService.messageCreated(messageCreated, user._id);
+    return this.messagesService.messageCreated();
   }
 }
