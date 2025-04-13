@@ -31,7 +31,7 @@ export class MessagesResolver {
   async findAll(
     @Args('chatId') chatId: string,
     @CurrentUser() user: JwtPayload,
-  ): Promise<Message[]> {
+  ) {
     return this.messagesService.findAll(chatId, user._id);
   }
 

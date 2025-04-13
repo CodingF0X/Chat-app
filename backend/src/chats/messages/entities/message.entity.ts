@@ -1,23 +1,19 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema } from '@nestjs/mongoose';
 import { AbstractEntity } from 'src/common/database/abstract.entity';
+import { User } from 'src/users/entities/user.schema';
 
 @ObjectType()
-@Schema()
 export class Message extends AbstractEntity {
   @Field(() => String, { description: 'The message content' })
-  @Prop({ required: true })
   content: string;
 
-  @Field(() => String, { description: 'The sender of the message' })
-  @Prop({ required: true })
-  sender: string;
+  @Field(() => User, { description: 'The sender of the message' })
+  user: User;
 
   @Field(() => String, { description: 'The chat ID' })
-  @Prop({ required: true })
   chatId: string;
 
   @Field(() => String, { description: 'Created date of the message' })
-  @Prop({ required: true })
   createdAt: Date;
 }
