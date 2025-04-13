@@ -30,8 +30,8 @@ export class MessagesService {
 
     await this.chatRepository.findOneAndUpdate(
       {
-        _id: chatId,
-        ...this.chatService.userChatFileter(userId),
+        _id: new Types.ObjectId(chatId),
+        // ...this.chatService.userChatFileter(userId),
       },
       { $push: { messages: messageDocument } }, // if all good then add the message to the array of msgs
     );
@@ -50,9 +50,10 @@ export class MessagesService {
   async findAll(chatId: string, userId: string): Promise<Message[]> {
     const chat = await this.chatRepository.modelRef.aggregate([
       {
-        $match: {
+        $match: { 
           _id: new Types.ObjectId(chatId),
-        },
+          // ...this.chatService.userChatFileter(userId)
+        }
       },
       {
         $unwind: '$messages',
@@ -68,7 +69,7 @@ export class MessagesService {
         },
       },
 
-      { $unwind: 'user' },
+      { $unwind: '$user' },
       { $unset: 'sender' },
       { $set: { chatId } },
     ]);
@@ -80,7 +81,7 @@ export class MessagesService {
     //ensures only users in this chat will get this update
     await this.chatRepository.findOne({
       _id: chatId,
-      ...this.chatService.userChatFileter(userId),
+      // ...this.chatService.userChatFileter(userId),
     });
     return this.pubSub.asyncIterableIterator(EventTriggers.MESSAGE_CREATED);
   }

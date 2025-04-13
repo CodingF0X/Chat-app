@@ -11,20 +11,20 @@ import { PipelineStage, Types } from 'mongoose';
 export class ChatsService {
   constructor(private readonly chatRepository: ChatRepository) {}
 
-  userChatFileter(userId: string) {
-    return {
-      $or: [
-        { userId }, // to check if the user is the owner of the chat
-        {
-          participants: {
-            // to check if the user is a participant of the chat
-            $in: [userId],
-          },
-        },
-        { isPrivate: false },
-      ],
-    };
-  }
+  // userChatFileter(userId: string) {
+  //   return {
+  //     $or: [
+  //       { userId }, // to check if the user is the owner of the chat
+  //       {
+  //         participants: {
+  //           // to check if the user is a participant of the chat
+  //           $in: [userId],
+  //         },
+  //       },
+  //       { isPrivate: false },
+  //     ],
+  //   };
+  // }
 
   async create(
     createChatInput: CreateChatInput,
