@@ -7,7 +7,7 @@ export class Chat extends AbstractEntity {
   @Field(() => String, { description: 'Chat name' })
   name: string;
 
-  @Field(() => Message, { description: 'Latest chat message' })
+  @Field(() => Message, { description: 'Latest chat message', nullable: true })
   latestMessage?: Message;
 }
 /* 

@@ -3,7 +3,6 @@ import { ChatsService } from './chats.service';
 import { ChatsResolver } from './chats.resolver';
 import { ChatRepository } from './chat.repository';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Chat } from './entities/chat.entity';
 import { MessagesModule } from './messages/messages.module';
 import { ChatDocument, ChatSchema } from './entities/chat.document';
 
