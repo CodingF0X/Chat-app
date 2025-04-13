@@ -5,13 +5,13 @@ import { ChatRepository } from './chat.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Chat } from './entities/chat.entity';
 import { MessagesModule } from './messages/messages.module';
-import { ChatSchema } from './entities/chat.document';
+import { ChatDocument, ChatSchema } from './entities/chat.document';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
-        name: Chat.name,
+        name: ChatDocument.name,
         schema: ChatSchema,
       },
     ]),
