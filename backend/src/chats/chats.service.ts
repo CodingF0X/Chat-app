@@ -4,6 +4,7 @@ import { UpdateChatInput } from './dto/update-chat.input';
 import { ChatRepository } from './chat.repository';
 import { Chat } from './entities/chat.entity';
 import { JwtPayload } from 'src/auth/jwt-payload.interface';
+import { ChatDocument } from './entities/chat.document';
 
 @Injectable()
 export class ChatsService {
@@ -24,11 +25,10 @@ export class ChatsService {
     };
   }
 
-  async create(createChatInput: CreateChatInput, userId: string) {
+  async create(createChatInput: CreateChatInput, userId: string): Promise<Chat> {
     const chat = await this.chatRepository.create({
       ...createChatInput,
       userId,
-      participants: createChatInput.participants || [],
       messages: [],
     });
     return chat;
@@ -41,7 +41,7 @@ export class ChatsService {
     return chats;
   }
 
-  async findOne(_id: string) {
+  async findOne(_id: string): Promise<Chat> {
     const chat = await this.chatRepository.findOne({ _id });
     return chat;
   }
