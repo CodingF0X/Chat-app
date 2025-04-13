@@ -6,9 +6,10 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Routes from "../../Routes";
 import { Chat } from "../../../gql/graphql";
+import { useGetMe } from "../../../hooks/useGetMe";
 
 interface ChatListItemProps {
   chat: Chat;
@@ -16,6 +17,19 @@ interface ChatListItemProps {
 }
 
 const ChatListItem = ({ chat, selected }: ChatListItemProps) => {
+  const [latestMsg, setLatestMsg] = useState('')
+  const { data: ME } = useGetMe()
+
+  useEffect(()=>{
+    if(chat.latestMessage){
+      if(chat.latestMessage.user._id === ME?.GET_ME._id ){
+        setLatestMsg(`You: ${chat.latestMessage.content}`)
+      }else{
+        setLatestMsg(chat.latestMessage.content)
+      }
+    }
+  },[chat.latestMessage, ME])
+  
   return (
     <>
       <ListItem alignItems="flex-start">
@@ -37,9 +51,12 @@ const ChatListItem = ({ chat, selected }: ChatListItemProps) => {
                   variant="body2"
                   sx={{ color: "text.primary", display: "inline" }}
                 >
-                  Ali Connors
+                  {chat.latestMessage.user.email}
                 </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
+
+                <Typography>
+                {latestMsg}
+                </Typography>
               </React.Fragment>
             }
           />
