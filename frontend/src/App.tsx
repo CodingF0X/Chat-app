@@ -32,7 +32,7 @@ function App() {
         <CssBaseline />
         <Header />
         <Guard>
-          <Container sx={{ height: "80vh", maxWidth: "xl" }}>
+          <Container sx={{ height: "80vh", maxWidth: "xl", mt:'30px' }}>
             {pathsVar ? (
               <Grid container spacing={5}>
                 <Grid size={{ xs: 12, sm: 12, md: 5, lg: 4, xl: 3 }}>
