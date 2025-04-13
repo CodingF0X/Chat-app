@@ -67,7 +67,7 @@ const Chat = () => {
     scrollToBottom();
   };
   return (
-    <Stack sx={{ height: "100%", justifyContent: "space-between" }}>
+    <Stack sx={{ height: "80vh", justifyContent: "space-between" }}>
       <Typography component="h1" variant="h3">
         {data?.Find_Single_Chat.name}
       </Typography>
@@ -77,8 +77,8 @@ const Chat = () => {
           .sort((messageA, messageB) => {
             // Convert createdAt strings to Date objects and compare
             return (
-              new Date(messageA.createdAt).getTime() -
-              new Date(messageB.createdAt).getTime()
+              new Date(messageB.createdAt).getTime() -
+              new Date(messageA.createdAt).getTime()
             );
           })
           .map((msg) => (
