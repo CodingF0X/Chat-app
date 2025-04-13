@@ -77,12 +77,12 @@ export class MessagesService {
     return chat || []; // return messages or empty array if no messages found
   }
 
-  async messageCreated({ chatId }: MessageCreatedArgs, userId: string) {
-    //ensures only users in this chat will get this update
-    await this.chatRepository.findOne({
-      _id: chatId,
-      // ...this.chatService.userChatFileter(userId),
-    });
+  async messageCreated() {
+    // //ensures only users in this chat will get this update
+    // await this.chatRepository.findOne({
+    //   _id: chatId,
+    //   // ...this.chatService.userChatFileter(userId),
+    // });
     return this.pubSub.asyncIterableIterator(EventTriggers.MESSAGE_CREATED);
   }
 }
