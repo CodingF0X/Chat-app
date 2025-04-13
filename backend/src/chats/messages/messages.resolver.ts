@@ -31,20 +31,25 @@ export class MessagesResolver {
   async findAll(
     @Args('chatId') chatId: string,
     @CurrentUser() user: JwtPayload,
-  ) {
+  ): Promise<Message[]> {
     return this.messagesService.findAll(chatId, user._id);
   }
 
   @Subscription(() => Message, {
     name: 'Message_Created', // ensure this name is consitent everywhere this subscription used
-    filter(payload, variables,context) {
-      const userId= context.req.user._id
-      return (payload.Message_Created.chatId === variables.chatId && 
-        userId !== payload.Message_Created.sender // here to ensure not to publish the event to the sender himself
+    filter(payload, variables, context) {
+      const userId = context.req.user._id;
+      const message: Message = payload.Message_Created;
+      return (
+        message.chatId === variables.chatId &&
+        userId !== message.user._id.toHexString() // here to ensure not to publish the event to the sender himself
       );
     },
   })
-  messageCreated(@Args() messageCreated: MessageCreatedArgs, @CurrentUser() user: JwtPayload) {
-    return this.messagesService.messageCreated(messageCreated,user._id);
+  messageCreated(
+    @Args() messageCreated: MessageCreatedArgs,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.messagesService.messageCreated(messageCreated, user._id);
   }
 }

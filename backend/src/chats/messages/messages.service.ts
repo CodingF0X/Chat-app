@@ -47,13 +47,33 @@ export class MessagesService {
     return message;
   }
 
-  async findAll(chatId: string, userId: string) {
-    const chat = await this.chatRepository.findOne({
-      _id: chatId,
-      ...this.chatService.userChatFileter(userId),
-    });
+  async findAll(chatId: string, userId: string): Promise<Message[]> {
+    const chat = await this.chatRepository.modelRef.aggregate([
+      {
+        $match: {
+          _id: new Types.ObjectId(chatId),
+        },
+      },
+      {
+        $unwind: '$messages',
+      },
+      { $replaceRoot: { newRoot: '$messages' } }, // to get only message related props since we are not interested in chat related props
 
-    return chat?.messages || []; // return messages or empty array if no messages found
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'sender',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+
+      { $unwind: 'user' },
+      { $unset: 'sender' },
+      { $set: { chatId } },
+    ]);
+
+    return chat || []; // return messages or empty array if no messages found
   }
 
   async messageCreated({ chatId }: MessageCreatedArgs, userId: string) {
