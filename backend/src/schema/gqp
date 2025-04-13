@@ -94,6 +94,6 @@ input CreateMessageInput {
 type Subscription {
   Message_Created(
     """The Id of the chat"""
-    chatId: String!
+    chatIds: [String!]!
   ): Message!
 }

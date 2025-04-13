@@ -51,7 +51,7 @@ const ChatListItem = ({ chat, selected }: ChatListItemProps) => {
                   variant="body2"
                   sx={{ color: "text.primary", display: "inline" }}
                 >
-                  {chat.latestMessage.user.email}
+                  {chat?.latestMessage?.user.email}
                 </Typography>
 
                 <Typography>
