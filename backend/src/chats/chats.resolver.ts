@@ -7,6 +7,7 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
 import { CurrentUser } from 'src/auth/current-user.decorator';
 import { JwtPayload } from 'src/auth/jwt-payload.interface';
+import { PaginationArgs } from './args/pagination.args';
 
 @Resolver(() => Chat)
 export class ChatsResolver {
@@ -23,8 +24,11 @@ export class ChatsResolver {
 
   @UseGuards(GqlAuthGuard)
   @Query(() => [Chat], { name: 'Find_Chats' })
-  findAll(@CurrentUser() user: JwtPayload): Promise<Chat[]> {
-    return this.chatsService.findMany();
+  findAll(
+    @Args('paginationArgs') paginationArgs: PaginationArgs,
+    @CurrentUser() user: JwtPayload,
+  ): Promise<Chat[]> {
+    return this.chatsService.findMany([], paginationArgs);
   }
 
   @Query(() => Chat, { name: 'Find_Single_Chat' })

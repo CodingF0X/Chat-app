@@ -6,6 +6,7 @@ import { Chat } from './entities/chat.entity';
 import { JwtPayload } from 'src/auth/jwt-payload.interface';
 import { ChatDocument } from './entities/chat.document';
 import { PipelineStage, Types } from 'mongoose';
+import { PaginationArgs } from './args/pagination.args';
 
 @Injectable()
 export class ChatsService {
@@ -44,10 +45,28 @@ export class ChatsService {
   //   });
   //   return chats;
   // }
-  async findMany(prePipelineStages: PipelineStage[] = []) {
+  async findMany(
+    prePipelineStages: PipelineStage[] = [],
+    paginationArgs?: PaginationArgs,
+  ) {
     const chats = await this.chatRepository.modelRef.aggregate([
       ...prePipelineStages,
-      { $set: { latestMessage: { $arrayElemAt: ['$messages', -1] } } },
+      {
+        $set: {
+          latestMessage: {
+            $cond: [
+              '$messages', // we wanna check if this prop is actuially defined in this chat doc.
+              { $arrayElemAt: ['$messages', -1] }, // if it was true, then we evaluate the next element in this array
+              {
+                createdAt: new Date(), //otherwise, we set the latestMessage to right now.
+              },
+            ],
+          },
+        },
+      },
+      { $sort: { 'latestMessage.createdAt': -1 } },
+      { $skip: paginationArgs?.skip || 0 },
+      { $limit: paginationArgs?.limit || 10 },
       { $unset: 'messages' },
       {
         $lookup: {
@@ -68,6 +87,10 @@ export class ChatsService {
       chat.latestMessage.chatId = chat._id;
     });
     return chats;
+  }
+
+  async countDocs() {
+    return await this.chatRepository.modelRef.countDocuments({});
   }
 
   async findOne(_id: string) {
