@@ -39,7 +39,7 @@ type Query {
   Get_All_Users: [User!]!
   User(query: String!): User!
   GET_ME: User!
-  Find_Chats: [Chat!]!
+  Find_Chats(skip: Int!, limit: Int!): [Chat!]!
   Find_Single_Chat(_id: String!): Chat!
   Get_All_Messages(chatId: String!): [Message!]!
 }

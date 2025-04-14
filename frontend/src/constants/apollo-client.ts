@@ -45,7 +45,28 @@ const link = split(
 );
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache(
+    {
+      typePolicies:{
+        Query:{
+          fields:{
+            Find_Chats:{
+              keyArgs: false,
+              merge(existing, incoming, {args}) {
+                const merged = existing ? existing.slice(0) : [];
+                const start = args?.skip;
+                const end = start + incoming.length;
+                for (let i = start; i < end; ++i) {
+                  merged[i] = incoming[i - start];
+                }
+                return merged;
+              }
+            }
+          }
+        }
+      }
+    }
+  ),
   link: logoutLink.concat(link),
 });
 

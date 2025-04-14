@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Divider,
   ListItem,
   ListItemAvatar,
   ListItemButton,
@@ -62,6 +63,8 @@ const ChatListItem = ({ chat, selected }: ChatListItemProps) => {
           />
         </ListItemButton>
       </ListItem>
+      <Divider variant="inset" />
+
     </>
   );
 };
