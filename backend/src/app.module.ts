@@ -44,7 +44,7 @@ import { AuthService } from './auth/auth.service';
                 const request = context.extra.request;
                 const user = authService.verifyWebSocket(request);
                 context.user = user;
-                console.log(context)
+                // console.log(context)
               } catch (error) {
                 new Logger().error(error);
                 throw new UnauthorizedException();

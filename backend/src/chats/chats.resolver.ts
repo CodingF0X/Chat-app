@@ -25,7 +25,7 @@ export class ChatsResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => [Chat], { name: 'Find_Chats' })
   findAll(
-    @Args('paginationArgs') paginationArgs: PaginationArgs,
+    @Args() paginationArgs: PaginationArgs,
     @CurrentUser() user: JwtPayload,
   ): Promise<Chat[]> {
     return this.chatsService.findMany([], paginationArgs);
