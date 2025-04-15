@@ -64,7 +64,7 @@ const ChatList = () => {
             useWindow={false}
           >
             {data?.Find_Chats &&
-              [...data.Find_Chats]
+              [...new Map(data.Find_Chats.map(chat => [chat._id, chat])).values()]
                 .sort((chatA, chatB) => {
                   if (!chatA.latestMessage || !chatB.latestMessage) {
                     return -1; // Handle cases where latestMessage is undefined
@@ -84,7 +84,6 @@ const ChatList = () => {
                   />
                 ))
                 .reverse()}
-            <>{chatsCount}</>
           </InfiniteScroll>
         </Box>
       </Stack>
