@@ -9,6 +9,7 @@ import { JwtPayload } from 'src/auth/jwt-payload.interface';
 import { InjectionTokens } from 'src/common/constants/injection.token';
 import { PubSub } from 'graphql-subscriptions';
 import { MessageCreatedArgs } from '../args/message.args';
+import { GetMessagesArgs } from '../args/getMessages.args';
 
 @Resolver(() => Message)
 export class MessagesResolver {
@@ -29,7 +30,7 @@ export class MessagesResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => [Message], { name: 'Get_All_Messages' })
   async findAll(
-    @Args('chatId') chatId: string,
+    @Args() chatId: GetMessagesArgs,
     @CurrentUser() _user: JwtPayload,
   ): Promise<Message[]> {
     return this.messagesService.findAll(chatId);
