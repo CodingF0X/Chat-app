@@ -18,19 +18,19 @@ interface ChatListItemProps {
 }
 
 const ChatListItem = ({ chat, selected }: ChatListItemProps) => {
-  const [latestMsg, setLatestMsg] = useState('')
-  const { data: ME } = useGetMe()
+  const [latestMsg, setLatestMsg] = useState("");
+  const { data: ME } = useGetMe();
 
-  useEffect(()=>{
-    if(chat.latestMessage){
-      if(chat.latestMessage.user._id === ME?.GET_ME._id ){
-        setLatestMsg(`You: ${chat.latestMessage.content}`)
-      }else{
-        setLatestMsg(chat.latestMessage.content)
+  useEffect(() => {
+    if (chat.latestMessage) {
+      if (chat.latestMessage.user._id === ME?.GET_ME._id) {
+        setLatestMsg(`You: ${chat.latestMessage.content}`);
+      } else {
+        setLatestMsg(chat.latestMessage.content);
       }
     }
-  },[chat.latestMessage, ME])
-  
+  }, [chat.latestMessage, ME]);
+
   return (
     <>
       <ListItem alignItems="flex-start">
@@ -50,21 +50,19 @@ const ChatListItem = ({ chat, selected }: ChatListItemProps) => {
                 <Typography
                   component="span"
                   variant="body2"
-                  sx={{ color: "text.primary", display: "inline" }}
+                  
+                  sx={{ color: "text.primary", display: "block" }}
                 >
                   {chat?.latestMessage?.user.email}
                 </Typography>
 
-                <Typography>
-                {latestMsg}
-                </Typography>
+                <Typography component="span">{latestMsg}</Typography>
               </React.Fragment>
             }
           />
         </ListItemButton>
       </ListItem>
       <Divider variant="inset" />
-
     </>
   );
 };
