@@ -61,6 +61,19 @@ const client = new ApolloClient({
                 }
                 return merged;
               }
+            },
+            Get_All_Messages:{
+              keyArgs: ["chatId"],
+              merge(existing, incoming, {args}) {
+                const merged = existing ? existing.slice(0) : [];
+                const start = args?.skip;
+                const end = start + incoming.length;
+                for (let i = start; i < end; ++i) {
+                  merged[i] = incoming[i - start];
+                }
+                return merged;
+              }
+            
             }
           }
         }

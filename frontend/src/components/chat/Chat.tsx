@@ -14,6 +14,9 @@ import useSendMessage from "../../hooks/useSendMessage";
 import { useEffect, useRef, useState } from "react";
 import Message from "./message/Message";
 import useGetMessages from "../../hooks/useGetMessages";
+import { PAGE_SIZE } from "../../constants/pagination.constants";
+import useCountMessages from "../../hooks/useCountMessages";
+import InfiniteScroll from "react-infinite-scroller";
 
 const Chat = () => {
   const params = useParams<{ _id: string }>();
@@ -22,8 +25,12 @@ const Chat = () => {
 
   const [message, setMessage] = useState<string>("");
   const [createMessage] = useSendMessage(chatId);
-  const { data: messages } = useGetMessages({ chatId });
-
+  const { data: messages, fetchMore } = useGetMessages({
+    chatId,
+    skip: 0,
+    limit: PAGE_SIZE,
+  });
+  const { countMessages, messagesCount } = useCountMessages(chatId);
   const divRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -33,8 +40,16 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (
+      messages?.Get_All_Messages &&
+      messages.Get_All_Messages.length < PAGE_SIZE
+    )
+      scrollToBottom();
   }, [location.pathname, messages]);
+
+  useEffect(() => {
+    countMessages();
+  }, [countMessages]);
 
   const handleSendMessage = async () => {
     await createMessage({
@@ -51,25 +66,46 @@ const Chat = () => {
       <Typography component="h1" variant="h3">
         {data?.Find_Single_Chat.name}
       </Typography>
+      {""}
       <Box overflow={"auto"} sx={{ maxHeight: "80vh" }}>
-        {messages?.Get_All_Messages
-          ?.slice() // Create a copy to avoid mutating the original array
-          .sort((messageA, messageB) => {
-            // Convert createdAt strings to Date objects and compare
-            return (
-              new Date(messageB.createdAt).getTime() -
-              new Date(messageA.createdAt).getTime()
-            );
-          })
-          .map((msg) => (
-            <Message
-              key={msg._id}
-              content={msg.content}
-              timeStamp={msg.createdAt}
-            />
-          ))}
-        <div ref={divRef}></div>
+        {""}
+        <InfiniteScroll
+          pageStart={0}
+          isReverse={true}
+          loadMore={() =>
+            fetchMore({
+              variables: {
+                skip: messages?.Get_All_Messages?.length,
+              },
+            })
+          }
+          hasMore={
+            messages?.Get_All_Messages && messagesCount
+              ? messages?.Get_All_Messages.length < messagesCount
+              : false
+          }
+          useWindow={false}
+        >
+          {messages?.Get_All_Messages?.slice() // Create a copy to avoid mutating the original array
+            .sort((messageA, messageB) => {
+              // Convert createdAt strings to Date objects and compare
+              return (
+                new Date(messageB.createdAt).getTime() -
+                new Date(messageA.createdAt).getTime()
+              );
+            })
+            .map((msg) => (
+              <Message
+                key={msg._id}
+                content={msg.content}
+                timeStamp={msg.createdAt}
+              />
+            ))}
+          <div ref={divRef}></div>
+        </InfiniteScroll>
+        {""}
       </Box>
+      {""}
       <Paper
         sx={{
           padding: "2px 4px",
