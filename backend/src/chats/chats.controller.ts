@@ -9,6 +9,9 @@ export class ChatsController {
     @Get('count')
     @UseGuards(JwtAuthGuard)
     async count() {
-        return await this.chatService.countDocs()
+        const coundChats = await this.chatService.countDocs()
+        console.log({numbeOfChats: coundChats})
+        return coundChats;
+
     }
 }

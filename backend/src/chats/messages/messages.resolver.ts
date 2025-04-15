@@ -30,9 +30,9 @@ export class MessagesResolver {
   @Query(() => [Message], { name: 'Get_All_Messages' })
   async findAll(
     @Args('chatId') chatId: string,
-    @CurrentUser() user: JwtPayload,
+    @CurrentUser() _user: JwtPayload,
   ): Promise<Message[]> {
-    return this.messagesService.findAll(chatId, user._id);
+    return this.messagesService.findAll(chatId);
   }
 
   @Subscription(() => Message, {

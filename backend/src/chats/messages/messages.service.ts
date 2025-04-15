@@ -10,6 +10,7 @@ import { MessageCreatedArgs } from '../args/message.args';
 import { ChatsService } from '../chats.service';
 import { MessageDocument } from './entities/message.document';
 import { UsersService } from 'src/users/users.service';
+import { GetMessagesArgs } from '../args/getMessages.args';
 
 @Injectable()
 export class MessagesService {
@@ -47,19 +48,21 @@ export class MessagesService {
     return message;
   }
 
-  async findAll(chatId: string, userId: string): Promise<Message[]> {
+  async findAll({ chatId, skip, limit }: GetMessagesArgs): Promise<Message[]> {
     const chat = await this.chatRepository.modelRef.aggregate([
       {
-        $match: { 
+        $match: {
           _id: new Types.ObjectId(chatId),
           // ...this.chatService.userChatFileter(userId)
-        }
+        },
       },
       {
         $unwind: '$messages',
       },
       { $replaceRoot: { newRoot: '$messages' } }, // to get only message related props since we are not interested in chat related props
-
+      { $sort: { createdAt: -1 } },
+      { $skip: skip },
+      { $limit: limit },
       {
         $lookup: {
           from: 'users',
@@ -75,6 +78,16 @@ export class MessagesService {
     ]);
 
     return chat || []; // return messages or empty array if no messages found
+  }
+
+  async countDocs(chatId: string) {
+    return await this.chatRepository.modelRef.aggregate([
+      {
+        $match: { _id: new Types.ObjectId(chatId) },
+      },
+      { $unwind: '$messages' },
+      { $count: 'messages' },
+    ]);
   }
 
   async messageCreated() {
