@@ -16,7 +16,7 @@ const useSendMessage = (chatId: string) => {
     update(cache, { data }) {
       const MessagesQueryOptions = {
         query: getMessagesDocuments,
-        variables: { chatId },
+        variables: { chatId, skip:0, limit: 10 },
       };
 
       const messages = cache.readQuery({ ...MessagesQueryOptions });
