@@ -8,9 +8,15 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { UserRepository } from './users.repository';
 import { User } from './entities/user.schema';
 import * as bcrypt from 'bcryptjs';
+import { JwtPayload } from 'src/auth/jwt-payload.interface';
+import { S3Service } from 'src/common/s3/s3.service';
+import { USER_IMAGE_FILE_EXTENSION, USERS_BUCKET } from './users.constants';
 @Injectable()
 export class UsersService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly s3Service: S3Service,
+  ) {}
 
   async hashPassword(password: string): Promise<string> {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -28,9 +34,17 @@ export class UsersService {
       if (error.message.includes('E11000')) {
         throw new UnprocessableEntityException('Email already exists');
       }
-      console.log(error)
+      console.log(error);
       throw error;
     }
+  }
+
+  async uploadImage(file: Buffer, userId: string) {
+    await this.s3Service.uploadFile({
+      bucket: USERS_BUCKET,
+      key: `users/${userId}/profile.${USER_IMAGE_FILE_EXTENSION}`,
+      file,
+    });
   }
 
   async findAll(): Promise<User[]> {
