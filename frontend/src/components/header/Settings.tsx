@@ -10,6 +10,7 @@ import {
 import React from "react";
 import onLogout from "../../utils/onLogout";
 import useLogout from "../../hooks/useLogout";
+import Routes from "../Routes";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Settings = () => {
@@ -33,6 +34,11 @@ const Settings = () => {
     if (setting === "Logout") {
       await logout();
       onLogout();
+      handleCloseUserMenu();
+    }
+
+    if(setting === "Profile"){
+      Routes.navigate("/profile");
       handleCloseUserMenu();
     }
     // Other menu items (Profile, Account, Dashboard) have their own logic here
