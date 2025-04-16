@@ -5,6 +5,7 @@ import { UserRepository } from './users.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModel, User } from './entities/user.schema';
 import { UsersController } from './users.controller';
+import { S3Module } from 'src/common/s3/s3.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { UsersController } from './users.controller';
         schema: UserModel,
       },
     ]),
+    S3Module,
   ],
   providers: [UsersResolver, UsersService, UserRepository],
   exports: [UsersService],
