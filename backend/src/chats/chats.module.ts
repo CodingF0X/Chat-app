@@ -6,9 +6,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MessagesModule } from './messages/messages.module';
 import { ChatDocument, ChatSchema } from './entities/chat.document';
 import { ChatsController } from './chats.controller';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
+    UsersModule,
     MongooseModule.forFeature([
       {
         name: ChatDocument.name,

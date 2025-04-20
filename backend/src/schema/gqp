@@ -7,6 +7,9 @@ type User {
 
   """Email of user"""
   email: String!
+
+  """Image URL"""
+  imageURL: String!
 }
 
 type Message {

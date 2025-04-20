@@ -24,6 +24,7 @@ export class AuthService {
     const tokenPayload: JwtPayload = {
       _id: user._id.toHexString(), // or to.String() as both deliver the same performance
       email: user.email,
+      imageURL: user.imageURL
     };
 
     // here we generete the token only upon http request, and not store it in the browser.
