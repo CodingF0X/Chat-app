@@ -11,9 +11,11 @@ import React from "react";
 import onLogout from "../../utils/onLogout";
 import useLogout from "../../hooks/useLogout";
 import Routes from "../Routes";
+import { useGetMe } from "../../hooks/useGetMe";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Settings = () => {
+  const { data: me } = useGetMe();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -49,7 +51,7 @@ const Settings = () => {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <Avatar alt="Remy Sharp" src={me?.GET_ME.imageURL} />
           </IconButton>
         </Tooltip>
         <Menu

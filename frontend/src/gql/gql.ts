@@ -15,12 +15,12 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 type Documents = {
     "\n  fragment ChatFragment on Chat {\n    _id\n    name\n    latestMessage {\n      ...MessageFragment\n    }\n  }\n": typeof types.ChatFragmentFragmentDoc,
-    "\n  fragment MessageFragment on Message {\n    _id\n    content\n    user {\n      _id\n      email\n    }\n    chatId\n    createdAt\n  }\n": typeof types.MessageFragmentFragmentDoc,
+    "\n  fragment MessageFragment on Message {\n    _id\n    content\n    user {\n      _id\n      email\n      imageURL\n    }\n    chatId\n    createdAt\n  }\n": typeof types.MessageFragmentFragmentDoc,
     "\n  mutation Create_New_Chat($createChatInput: CreateChatInput!) {\n    Create_New_Chat(createChatInput: $createChatInput) {\n          ...ChatFragment\n    }\n  }\n": typeof types.Create_New_ChatDocument,
     "\n  mutation Mutation($createUserInput: CreateUserInput!) {\n    Create_New_User(createUserInput: $createUserInput) {\n      _id\n      email\n    }\n  }\n": typeof types.MutationDocument,
     "\n  query getChat($id: String!) {\n    Find_Single_Chat(_id: $id) {\n    ...ChatFragment\n    }\n  }\n": typeof types.GetChatDocument,
     "\n  query getChats($skip: Int!, $limit: Int!) {\n    Find_Chats(skip: $skip, limit: $limit) {\n      ...ChatFragment\n    }\n  }\n": typeof types.GetChatsDocument,
-    "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n    }\n  }\n": typeof types.GetMeDocument,
+    "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n      imageURL\n    }\n  }\n": typeof types.GetMeDocument,
     "\n  query getMessages($skip: Int!, $limit: Int!, $chatId: String!) {\n    Get_All_Messages(skip: $skip, limit: $limit, chatId: $chatId) {\n      ...MessageFragment\n    }\n  }\n": typeof types.GetMessagesDocument,
     "\n  query Query {\n  Get_All_Users {\n    _id\n    email\n  }\n}\n": typeof types.QueryDocument,
     "\n  subscription messageCreated($chatIds: [String!]!) {\n    Message_Created(chatIds: $chatIds) {\n      ...MessageFragment\n    }\n  }\n": typeof types.MessageCreatedDocument,
@@ -28,12 +28,12 @@ type Documents = {
 };
 const documents: Documents = {
     "\n  fragment ChatFragment on Chat {\n    _id\n    name\n    latestMessage {\n      ...MessageFragment\n    }\n  }\n": types.ChatFragmentFragmentDoc,
-    "\n  fragment MessageFragment on Message {\n    _id\n    content\n    user {\n      _id\n      email\n    }\n    chatId\n    createdAt\n  }\n": types.MessageFragmentFragmentDoc,
+    "\n  fragment MessageFragment on Message {\n    _id\n    content\n    user {\n      _id\n      email\n      imageURL\n    }\n    chatId\n    createdAt\n  }\n": types.MessageFragmentFragmentDoc,
     "\n  mutation Create_New_Chat($createChatInput: CreateChatInput!) {\n    Create_New_Chat(createChatInput: $createChatInput) {\n          ...ChatFragment\n    }\n  }\n": types.Create_New_ChatDocument,
     "\n  mutation Mutation($createUserInput: CreateUserInput!) {\n    Create_New_User(createUserInput: $createUserInput) {\n      _id\n      email\n    }\n  }\n": types.MutationDocument,
     "\n  query getChat($id: String!) {\n    Find_Single_Chat(_id: $id) {\n    ...ChatFragment\n    }\n  }\n": types.GetChatDocument,
     "\n  query getChats($skip: Int!, $limit: Int!) {\n    Find_Chats(skip: $skip, limit: $limit) {\n      ...ChatFragment\n    }\n  }\n": types.GetChatsDocument,
-    "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n    }\n  }\n": types.GetMeDocument,
+    "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n      imageURL\n    }\n  }\n": types.GetMeDocument,
     "\n  query getMessages($skip: Int!, $limit: Int!, $chatId: String!) {\n    Get_All_Messages(skip: $skip, limit: $limit, chatId: $chatId) {\n      ...MessageFragment\n    }\n  }\n": types.GetMessagesDocument,
     "\n  query Query {\n  Get_All_Users {\n    _id\n    email\n  }\n}\n": types.QueryDocument,
     "\n  subscription messageCreated($chatIds: [String!]!) {\n    Message_Created(chatIds: $chatIds) {\n      ...MessageFragment\n    }\n  }\n": types.MessageCreatedDocument,
@@ -61,7 +61,7 @@ export function graphql(source: "\n  fragment ChatFragment on Chat {\n    _id\n 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment MessageFragment on Message {\n    _id\n    content\n    user {\n      _id\n      email\n    }\n    chatId\n    createdAt\n  }\n"): (typeof documents)["\n  fragment MessageFragment on Message {\n    _id\n    content\n    user {\n      _id\n      email\n    }\n    chatId\n    createdAt\n  }\n"];
+export function graphql(source: "\n  fragment MessageFragment on Message {\n    _id\n    content\n    user {\n      _id\n      email\n      imageURL\n    }\n    chatId\n    createdAt\n  }\n"): (typeof documents)["\n  fragment MessageFragment on Message {\n    _id\n    content\n    user {\n      _id\n      email\n      imageURL\n    }\n    chatId\n    createdAt\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -81,7 +81,7 @@ export function graphql(source: "\n  query getChats($skip: Int!, $limit: Int!) {
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n    }\n  }\n"): (typeof documents)["\n  query GetMe {\n    GET_ME {\n      _id\n      email\n    }\n  }\n"];
+export function graphql(source: "\n  query GetMe {\n    GET_ME {\n      _id\n      email\n      imageURL\n    }\n  }\n"): (typeof documents)["\n  query GetMe {\n    GET_ME {\n      _id\n      email\n      imageURL\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

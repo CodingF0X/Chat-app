@@ -14,7 +14,7 @@ import { useGetMe } from "../../hooks/useGetMe";
 import { API_URL } from "../../constants/urls";
 
 const Profile: React.FC = () => {
-  const { data } = useGetMe();
+  const { data,refetch } = useGetMe();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -48,6 +48,9 @@ const Profile: React.FC = () => {
           throw new Error("Failed to upload image");
         }
       }
+
+      await refetch()
+      setProfileImagePreview(null)
     } catch (error) {
       console.log(error);
     }
@@ -84,7 +87,11 @@ const Profile: React.FC = () => {
         {/* Profile Picture Section */}
         <Box sx={{ position: "relative", mb: 3 }}>
           <Avatar
-            src={profileImagePreview || undefined}
+            src={
+              data?.GET_ME.imageURL
+                ? `${data.GET_ME.imageURL}?${new Date().getTime()}`
+                : profileImagePreview || undefined
+            }
             sx={{
               width: 120,
               height: 120,
@@ -128,7 +135,7 @@ const Profile: React.FC = () => {
           margin="normal"
           value={formData.username}
           onChange={handleInputChange}
-          required
+          // required
         />
 
         <TextField
@@ -140,7 +147,7 @@ const Profile: React.FC = () => {
           type="email"
           value={formData.email}
           onChange={handleInputChange}
-          required
+          // required
         />
 
         <TextField
@@ -152,7 +159,7 @@ const Profile: React.FC = () => {
           type="password"
           value={formData.password}
           onChange={handleInputChange}
-          required
+          // required
         />
 
         <Button

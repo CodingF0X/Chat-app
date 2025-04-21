@@ -6,6 +6,7 @@ const GET_ME = graphql(`
     GET_ME {
       _id
       email
+      imageURL
     }
   }
 `);
