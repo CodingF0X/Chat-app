@@ -29,6 +29,7 @@ export class S3Service {
       Bucket: bucket,
       Key: key,
       Body: file,
+      CacheControl: 'no-cache',
     }));
   }
 
