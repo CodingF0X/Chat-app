@@ -17,11 +17,13 @@ import useGetMessages from "../../hooks/useGetMessages";
 import { PAGE_SIZE } from "../../constants/pagination.constants";
 import useCountMessages from "../../hooks/useCountMessages";
 import InfiniteScroll from "react-infinite-scroller";
+import { useGetMe } from "../../hooks/useGetMe";
 
 const Chat = () => {
   const params = useParams<{ _id: string }>();
   const chatId = params._id!;
   const { data } = useGetChat({ id: chatId }); // ! to asserts non-null
+  const { data: me } = useGetMe()
 
   const [message, setMessage] = useState<string>("");
   const [createMessage] = useSendMessage(chatId);
@@ -99,6 +101,8 @@ const Chat = () => {
                 key={msg._id}
                 content={msg.content}
                 timeStamp={msg.createdAt}
+                user={msg.user}
+                currentUserId={me?.GET_ME._id}
               />
             ))}
           <div ref={divRef}></div>
