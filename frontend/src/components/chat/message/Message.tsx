@@ -28,7 +28,7 @@ const Message = ({ content, timeStamp, user, currentUserId }: MessageProps) => {
       >
         {/* Avatar */}
         <Avatar
-          src={user.imageURL}
+          src={`${user.imageURL}?${new Date().getTime()}`}
         />
 
         {/* Message bubble + timestamp */}
