@@ -6,9 +6,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersController } from './users.controller';
 import { S3Module } from 'src/common/s3/s3.module';
 import { UserDocument, UserModel } from './entities/user.document';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
+    MulterModule.register(),
     MongooseModule.forFeature([
       {
         name: UserDocument.name,

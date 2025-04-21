@@ -30,6 +30,8 @@ export class UsersController {
     })) file: Express.Multer.File,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.userService.uploadImage(file.buffer, user._id);
+    await this.userService.uploadImage(file.buffer, user._id);
+    const updated = await this.userService.findOne(user._id)
+    return{ imageURL:  updated.imageURL}
   }
 }
