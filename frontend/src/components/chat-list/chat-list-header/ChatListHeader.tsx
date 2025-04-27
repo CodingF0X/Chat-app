@@ -1,6 +1,5 @@
 import { AddCircle } from "@mui/icons-material";
 import { AppBar, IconButton, Toolbar } from "@mui/material";
-import React from "react";
 
 interface ChatListHeaderProps {
   handleCreateChat: () => void;
