@@ -84,6 +84,62 @@ DAG in our Chat App:
 
 Note: This diagram was created using [madge](https://github.com/pahen/madge) with the help of [GraphViz](https://graphviz.org/)
 
+<br/>
+<br/>
+<br/>
+
+Circular Dependencies
+It is the situation where two classes, services or modules depend on each other. So they call each other at once.<br/>
+In this particular app, i have came across the circular dependency between Chats and Messages modules where they depend on each other in object initialization. <br/>
+
+![image](https://github.com/user-attachments/assets/6bd882b5-d4e6-4427-a50e-a5eafda6114d) <br/>
+
+<br/>
+
+In order to solve this issue, Nest.js provides the solution to this issue using **Forward reference** as per the [Nest.js Docs](https://docs.nestjs.com/fundamentals/circular-dependency)
+
+<br/>
+I utilized this solution in my code:  <br/>
+
+**in Chats Module** : 
+<br/>
+
+```Typescript
+@Module({
+  imports: [
+    UsersModule,
+    MongooseModule.forFeature([
+      {
+        name: ChatDocument.name,
+        schema: ChatSchema,
+      },
+    ]),
+    forwardRef(() => MessagesModule),
+  ],
+  providers: [ChatsResolver, ChatsService, ChatRepository],
+  exports: [ChatRepository, ChatsService],
+  controllers: [ChatsController],
+})
+export class ChatsModule {}
+```
+
+<br/> 
+
+in **Messages Module** : <br/>
+
+```Typescript
+@Module({
+  imports: [forwardRef(() => ChatsModule), PubSubModule, UsersModule],
+  providers: [MessagesResolver, MessagesService],
+  controllers: [MessagesController],
+})
+export class MessagesModule {}
+```
+
+
+<br/>
+<br/>
+<br/>
 
 ## Data Modeling
 
