@@ -88,7 +88,7 @@ Note: This diagram was created using [madge](https://github.com/pahen/madge) wit
 <br/>
 <br/>
 
-Circular Dependencies
+### Circular Dependencies
 It is the situation where two classes, services or modules depend on each other. So they call each other at once.<br/>
 In this particular app, i have came across the circular dependency between Chats and Messages modules where they depend on each other in object initialization. <br/>
 
