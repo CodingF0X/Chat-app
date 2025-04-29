@@ -36,7 +36,17 @@ I follow a **four-layer Clean Architecture**:
 
 This separation makes sure that the core logic remains framework-agnostic and testable, while NestJS simply wires the pieces using dependency injection.
 ### UML Class Diagram
+**Chat Module** 
 
+![Chat-class-uml](https://github.com/user-attachments/assets/38091729-61ee-4e76-abec-5d7e55c21454)
+
+**User Module** 
+
+![mmea](https://github.com/user-attachments/assets/026be6a2-4c32-4dd4-9c8f-bc5ed15897b4)
+
+**Auth Module**
+
+![auth-class-uml](https://github.com/user-attachments/assets/e42ca55e-1391-4b7e-b6a0-1f0dae18d231)
 
 ---
 
@@ -54,18 +64,19 @@ This separation makes sure that the core logic remains framework-agnostic and te
 
   ### DB worklolad: 
 
-  ![alt text](<Chat App - Workload.jpg>)
+  ![Chat App - Workload](https://github.com/user-attachments/assets/2d763072-353f-4d89-8909-979dab4761e8)
+
 
   ### Conceptual Data Model
 
-  ![alt text](<Chat App - Conceptual Model.jpg>)
+![Chat App - Conceptual Model](https://github.com/user-attachments/assets/e1c609b5-0fcf-4038-9f81-e28e5292f296)
 
 ---
 
 ## Implementation
 
 ### Technical Overview
-![alt text](<Chat App - Technical Overview.jpg>)
+![Chat App - Technical Overview](https://github.com/user-attachments/assets/59191a80-21b1-488b-bf33-357aed4338f3)
 
 ### Technologies
 
@@ -84,19 +95,19 @@ This separation makes sure that the core logic remains framework-agnostic and te
 
 **Frontend**
 
-**Framework**: React v19, Vite
+- **Framework**: React v19, Vite
 
-**GraphQL** Client: Apollo Client (@apollo/client)
+- **GraphQL** Client: Apollo Client (@apollo/client)
 
-**Real-time**: graphql-ws for subscriptions over WebSockets
+- **Real-time**: graphql-ws for subscriptions over WebSockets
 
-**Styling**: MUI (Material UI), styled-components
+- **Styling**: MUI (Material UI), styled-components
 
-**Routing**: React Router v7
+- **Routing**: React Router v7
 
-**State & Caching**: Apollo’s in-memory cache, localForage for offline caching
+- **State & Caching**: Apollo’s in-memory cache, localForage for offline caching
 
-**Tooling**: ESLint, Prettier, GraphQL Codegen 
+- **Tooling**: ESLint, Prettier, GraphQL Codegen 
 
 ```bash
 # key NPM scripts to run the server: 
