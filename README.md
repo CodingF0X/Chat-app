@@ -48,7 +48,42 @@ This separation makes sure that the core logic remains framework-agnostic and te
 
 ![auth-class-uml](https://github.com/user-attachments/assets/e42ca55e-1391-4b7e-b6a0-1f0dae18d231)
 
----
+---<br/>
+<br/>
+<br/>
+
+
+## Directed Acyclic Graph (DAG)
+<br/>
+
+A directed acyclic graph (DAG) is a conceptual representation of a series of activities, as per https://hazelcast.com/foundations/distributed-computing/directed-acyclic-graph/  <br/>
+
+In Nest.js architecture, modules typically are designed in hierarchical structure. This is system works<br/>
+
+in layers, ensuring that each module and its components get their dependencies from the closest<br/>
+
+injector, be it module-specific or global (Feature or root module).<br/>
+
+<br/>
+
+
+Nest’s module system ensures that each module is a single unit of responsibility. As modules become dependent on one another, they form a  directed acyclic graph (DAG) that paints a clear picture of  the application’s architecture. <br/>
+It is a visualization aids in the following aspects:
+<br/>
+1. Problem diagnosis: Easily identifying which modules might be affected when a single module encounters an issue.<br/>
+
+
+2. Optimized refactoring: Recognizing which modules can be independently refactored without disturbing the application’s overall <br/>
+
+ functionality.
+
+3.Enhanced scalability: Strategically adding new modules or expanding existing ones based on the current module graph. <br/>
+
+DAG in our Chat App:
+![module-deps](https://github.com/user-attachments/assets/46ac7e27-771b-4a0a-a955-2f680e14022c)
+
+Note: This diagram was created using [madge](https://github.com/pahen/madge) with the help of [GraphViz](https://graphviz.org/)
+
 
 ## Data Modeling
 
