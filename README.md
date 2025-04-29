@@ -73,9 +73,7 @@ It is a visualization aids in the following aspects:
 1. Problem diagnosis: Easily identifying which modules might be affected when a single module encounters an issue.<br/>
 
 
-2. Optimized refactoring: Recognizing which modules can be independently refactored without disturbing the application’s overall <br/>
-
- functionality.
+2. Optimized refactoring: Recognizing which modules can be independently refactored without disturbing the application’s overall functionality. <br/>
 
 3.Enhanced scalability: Strategically adding new modules or expanding existing ones based on the current module graph. <br/>
 
