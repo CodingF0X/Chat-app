@@ -39,4 +39,3 @@ logs
 .prettierrc
 eslint.config.js
 codegen.ts
-vite.config.ts

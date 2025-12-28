@@ -29,7 +29,7 @@ services:
       - "3000:3000"
     environment:
       - MONGODB_URI=mongodb://mongo:27017/chatapp
-      - JWT_SECRET=dev-secret-key-change-in-production
+      - JWT_SECRET=${JWT_SECRET:-please-change-this-secret-in-production}
       - STAGE=prod
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-your-aws-key}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-your-aws-secret}

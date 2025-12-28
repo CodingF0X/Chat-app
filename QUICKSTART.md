@@ -79,6 +79,18 @@ If the Docker images have been built and published via GitHub Actions:
      -e S3_BUCKET_NAME=your-bucket \
      ghcr.io/codingf0x/chat-app/backend:latest
    ```
+   
+   **Note for Linux users:** Replace `host.docker.internal` with `172.17.0.1` (Docker bridge IP) or use `--network host` mode.
+   
+   ```bash
+   # Alternative for Linux
+   docker run -d \
+     --name chat-backend \
+     -p 3000:3000 \
+     -e MONGODB_URI=mongodb://172.17.0.1:27017/chatapp \
+     -e JWT_SECRET=your-secret-key \
+     ghcr.io/codingf0x/chat-app/backend:latest
+   ```
 
 4. **Run Frontend:**
    ```bash
