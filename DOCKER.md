@@ -99,8 +99,11 @@ For easier local development and testing, use the included `docker-compose.yml`:
 # Copy environment variables template
 cp .env.example .env
 
-# Edit .env with your configuration
+# Edit .env with your configuration (REQUIRED: Set JWT_SECRET)
 nano .env  # or use your preferred editor
+
+# IMPORTANT: You MUST set JWT_SECRET in .env before starting
+# Generate a secure secret: openssl rand -base64 32
 
 # Start all services (backend, frontend, and MongoDB)
 docker-compose up -d
