@@ -91,47 +91,41 @@ docker run -d \
   chat-app-frontend
 ```
 
-## Docker Compose (Optional)
+## Docker Compose
 
-You can create a `docker-compose.yml` file for easier local development:
+For easier local development and testing, use the included `docker-compose.yml`:
 
-```yaml
-version: '3.8'
-
-services:
-  backend:
-    build: ./backend
-    ports:
-      - "3000:3000"
-    environment:
-      - MONGODB_URI=mongodb://mongo:27017/chatapp
-      - JWT_SECRET=dev-secret-key
-      - STAGE=prod
-    depends_on:
-      - mongo
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-
-volumes:
-  mongo-data:
-```
-
-Then run:
 ```bash
+# Copy environment variables template
+cp .env.example .env
+
+# Edit .env with your configuration
+nano .env  # or use your preferred editor
+
+# Start all services (backend, frontend, and MongoDB)
 docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+
+# Stop and remove volumes (WARNING: This deletes database data)
+docker-compose down -v
 ```
+
+The docker-compose setup includes:
+- **MongoDB**: Database service with persistent volume
+- **Backend**: NestJS application connected to MongoDB
+- **Frontend**: React application served by nginx
+- **Health checks**: All services have health checks configured
+- **Automatic restart**: Services restart on failure
+
+Access the application:
+- Frontend: http://localhost
+- Backend API: http://localhost:3000
+- MongoDB: localhost:27017
 
 ## Image Features
 
