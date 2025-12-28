@@ -210,3 +210,37 @@ npm run test:e2e         # run end-to-end tests
 npm run dev           # start Vite development server
 npm run build         # production build
 npm run codegen       # generate GraphQL types/hooks
+```
+
+---
+
+## Docker Deployment
+
+The application supports Docker containerization with automated builds via GitHub Actions.
+
+### Quick Start with Docker
+
+```bash
+# Using Docker Compose (recommended for local development)
+docker-compose up -d
+
+# Or pull pre-built images from GitHub Container Registry
+docker pull ghcr.io/codingf0x/chat-app/backend:latest
+docker pull ghcr.io/codingf0x/chat-app/frontend:latest
+```
+
+### Documentation
+
+- **[QUICKSTART.md](./QUICKSTART.md)** - Quick setup guide for Docker
+- **[DOCKER.md](./DOCKER.md)** - Comprehensive Docker deployment documentation
+
+### Container Registry
+
+Docker images are automatically built and pushed to GitHub Container Registry (GHCR) via GitHub Actions when:
+- Code is pushed to `main` or `develop` branches
+- Version tags are created (e.g., `v1.0.0`)
+- Manually triggered via GitHub Actions UI
+
+**Available Images:**
+- Backend: `ghcr.io/codingf0x/chat-app/backend:latest`
+- Frontend: `ghcr.io/codingf0x/chat-app/frontend:latest`
